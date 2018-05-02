@@ -1,0 +1,86 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2036
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neural Network Testbench", "Debugging Application 2\Neural Network Testbench.csproj", "{F8768F0B-E1A6-435A-B71C-42B27E939F00}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralNetworkFundamentals", "NeuralNetworkFundamentals\NeuralNetworkFundamentals.csproj", "{8B12EC9A-3453-4C7A-9C30-211C5B1A9010}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Single Neuron Debugging Testbench", "Neuron Debugging Testbench\Single Neuron Debugging Testbench.csproj", "{9EEA34CB-9CDA-46C9-AABD-64C0908B7552}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mutliple Neuron Debugging Testbench", "Mutliple Neuron Debugging Testbench\Mutliple Neuron Debugging Testbench.csproj", "{8350A8F0-9FFA-4333-A8E8-99EE0792DDB5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Debugging Testbenches", "Debugging Testbenches", "{604B64FB-AA5B-4A06-BB61-1947F8CB84D9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Neuron Testbenches", "Neuron Testbenches", "{060BABA5-555D-4FAD-9549-B35824F2BCE6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Neural Network Testbenches", "Neural Network Testbenches", "{5D5A0E01-C2D3-40B5-B104-2A16BFC894C2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Neural File Testbenches", "Neural File Testbenches", "{C5244FAA-F50E-47D9-B4CB-3F0267235765}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NeuralFileDebuggingTestbench", "NeuralFileDebuggingTestbench\NeuralFileDebuggingTestbench.csproj", "{800BFB59-C05E-49DE-88CD-957A054215BC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neural Network Testbench W form", "Neural Network Testbench W form\Neural Network Testbench W form.csproj", "{5BE1623B-4EBE-47D8-A67E-31FCD7AF89C0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Recurrent Neural Network Testbenches", "Recurrent Neural Network Testbenches", "{D2205DFA-96A5-4AB5-B858-EC90786EE6C7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RecurrentNetwork Testbenches", "RecurrentNetwork Testbenches", "{9B208153-9055-43EE-A776-9DED14BB1AC8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecurrentNetworkTestbench", "RecurrentNetworkTestbench\RecurrentNetworkTestbench.csproj", "{3CD0FC2C-03C5-4C00-92D2-B3DCED352D6A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F8768F0B-E1A6-435A-B71C-42B27E939F00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8768F0B-E1A6-435A-B71C-42B27E939F00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8768F0B-E1A6-435A-B71C-42B27E939F00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8768F0B-E1A6-435A-B71C-42B27E939F00}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B12EC9A-3453-4C7A-9C30-211C5B1A9010}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B12EC9A-3453-4C7A-9C30-211C5B1A9010}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B12EC9A-3453-4C7A-9C30-211C5B1A9010}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B12EC9A-3453-4C7A-9C30-211C5B1A9010}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9EEA34CB-9CDA-46C9-AABD-64C0908B7552}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9EEA34CB-9CDA-46C9-AABD-64C0908B7552}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9EEA34CB-9CDA-46C9-AABD-64C0908B7552}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9EEA34CB-9CDA-46C9-AABD-64C0908B7552}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8350A8F0-9FFA-4333-A8E8-99EE0792DDB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8350A8F0-9FFA-4333-A8E8-99EE0792DDB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8350A8F0-9FFA-4333-A8E8-99EE0792DDB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8350A8F0-9FFA-4333-A8E8-99EE0792DDB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{800BFB59-C05E-49DE-88CD-957A054215BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{800BFB59-C05E-49DE-88CD-957A054215BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{800BFB59-C05E-49DE-88CD-957A054215BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{800BFB59-C05E-49DE-88CD-957A054215BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5BE1623B-4EBE-47D8-A67E-31FCD7AF89C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BE1623B-4EBE-47D8-A67E-31FCD7AF89C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BE1623B-4EBE-47D8-A67E-31FCD7AF89C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BE1623B-4EBE-47D8-A67E-31FCD7AF89C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CD0FC2C-03C5-4C00-92D2-B3DCED352D6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CD0FC2C-03C5-4C00-92D2-B3DCED352D6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CD0FC2C-03C5-4C00-92D2-B3DCED352D6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CD0FC2C-03C5-4C00-92D2-B3DCED352D6A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F8768F0B-E1A6-435A-B71C-42B27E939F00} = {5D5A0E01-C2D3-40B5-B104-2A16BFC894C2}
+		{9EEA34CB-9CDA-46C9-AABD-64C0908B7552} = {060BABA5-555D-4FAD-9549-B35824F2BCE6}
+		{8350A8F0-9FFA-4333-A8E8-99EE0792DDB5} = {060BABA5-555D-4FAD-9549-B35824F2BCE6}
+		{060BABA5-555D-4FAD-9549-B35824F2BCE6} = {604B64FB-AA5B-4A06-BB61-1947F8CB84D9}
+		{5D5A0E01-C2D3-40B5-B104-2A16BFC894C2} = {604B64FB-AA5B-4A06-BB61-1947F8CB84D9}
+		{C5244FAA-F50E-47D9-B4CB-3F0267235765} = {604B64FB-AA5B-4A06-BB61-1947F8CB84D9}
+		{800BFB59-C05E-49DE-88CD-957A054215BC} = {C5244FAA-F50E-47D9-B4CB-3F0267235765}
+		{5BE1623B-4EBE-47D8-A67E-31FCD7AF89C0} = {5D5A0E01-C2D3-40B5-B104-2A16BFC894C2}
+		{D2205DFA-96A5-4AB5-B858-EC90786EE6C7} = {604B64FB-AA5B-4A06-BB61-1947F8CB84D9}
+		{9B208153-9055-43EE-A776-9DED14BB1AC8} = {D2205DFA-96A5-4AB5-B858-EC90786EE6C7}
+		{3CD0FC2C-03C5-4C00-92D2-B3DCED352D6A} = {9B208153-9055-43EE-A776-9DED14BB1AC8}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {83D1F70B-EC1A-4FD6-966B-4CE0BBCDB6D0}
+	EndGlobalSection
+EndGlobal

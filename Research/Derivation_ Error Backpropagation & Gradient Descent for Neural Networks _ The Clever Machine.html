@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<!-- saved from url=(0120)https://theclevermachine.wordpress.com/2014/09/06/derivation-error-backpropagation-gradient-descent-for-neural-networks/ -->
+<html lang="en" class="gr__theclevermachine_wordpress_com"><!--<![endif]--><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>Derivation: Error Backpropagation &amp; Gradient Descent for Neural Networks | The Clever Machine</title>
+<link rel="profile" href="http://gmpg.org/xfn/11">
+<link rel="pingback" href="https://theclevermachine.wordpress.com/xmlrpc.php">
+<link rel="dns-prefetch" href="https://s2.wp.com/">
+<link rel="dns-prefetch" href="https://s1.wp.com/">
+<link rel="dns-prefetch" href="https://s0.wp.com/">
+<link rel="dns-prefetch" href="https://s.pubmine.com/">
+<link rel="dns-prefetch" href="https://x.bidswitch.net/">
+<link rel="dns-prefetch" href="https://static.criteo.net/">
+<link rel="dns-prefetch" href="https://ib.adnxs.com/">
+<link rel="dns-prefetch" href="https://aax.amazon-adsystem.com/">
+<link rel="dns-prefetch" href="https://bidder.criteo.com/">
+<link rel="dns-prefetch" href="https://cas.criteo.com/">
+<link rel="dns-prefetch" href="https://gum.criteo.com/">
+<link rel="dns-prefetch" href="https://ads.pubmatic.com/">
+<link rel="dns-prefetch" href="https://gads.pubmatic.com/">
+<link rel="dns-prefetch" href="https://tpc.googlesyndication.com/">
+<link rel="dns-prefetch" href="https://ad.doubleclick.net/">
+<link rel="dns-prefetch" href="https://googleads.g.doubleclick.net/">
+<link rel="dns-prefetch" href="https://www.googletagservices.com/">
+<link rel="dns-prefetch" href="https://cdn.switchadhub.com/">
+<link rel="dns-prefetch" href="https://delivery.g.switchadhub.com/">
+<link rel="dns-prefetch" href="https://delivery.swid.switchadhub.com/">
+<link rel="alternate" type="application/rss+xml" title="The Clever Machine » Feed" href="https://theclevermachine.wordpress.com/feed/">
+<link rel="alternate" type="application/rss+xml" title="The Clever Machine » Comments Feed" href="https://theclevermachine.wordpress.com/comments/feed/">
+<link rel="alternate" type="application/rss+xml" title="The Clever Machine » Derivation: Error Backpropagation &amp; Gradient Descent for Neural Networks Comments Feed" href="https://theclevermachine.wordpress.com/2014/09/06/derivation-error-backpropagation-gradient-descent-for-neural-networks/feed/">
+	<script type="text/javascript">
+		/* <![CDATA[ */
+		function addLoadEvent(func) {
+			var oldonload = window.onload;
+			if (typeof window.onload != 'function') {
+				window.onload = func;
+			} else {
+				window.onload = function () {
+					oldonload();
+					func();
+				}
+			}
+		}
+		/* ]]> */
+	</script>
+			<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/72x72\/","ext":".png","svgUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/s2.wp.com\/wp-includes\/js\/wp-emoji-release.min.js?m=1516999477h&ver=4.9.3-RC1"}};
+			!function(a,b,c){function d(a,b){var c=String.fromCharCode;l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,a),0,0);var d=k.toDataURL();l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,b),0,0);var e=k.toDataURL();return d===e}function e(a){var b;if(!l||!l.fillText)return!1;switch(l.textBaseline="top",l.font="600 32px Arial",a){case"flag":return!(b=d([55356,56826,55356,56819],[55356,56826,8203,55356,56819]))&&(b=d([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]),!b);case"emoji":return b=d([55357,56692,8205,9792,65039],[55357,56692,8203,9792,65039]),!b}return!1}function f(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var g,h,i,j,k=b.createElement("canvas"),l=k.getContext&&k.getContext("2d");for(j=Array("flag","emoji"),c.supports={everything:!0,everythingExceptFlag:!0},i=0;i<j.length;i++)c.supports[j[i]]=e(j[i]),c.supports.everything=c.supports.everything&&c.supports[j[i]],"flag"!==j[i]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[j[i]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(h=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",h,!1),a.addEventListener("load",h,!1)):(a.attachEvent("onload",h),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),g=c.source||{},g.concatemoji?f(g.concatemoji):g.wpemoji&&g.twemoji&&(f(g.twemoji),f(g.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script><script src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/wp-emoji-release.min.js.download" type="text/javascript" defer=""></script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel="stylesheet" id="all-css-0-1" href="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/saved_resource" type="text/css" media="all">
+<link rel="stylesheet" id="print-css-1-1" href="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/global-print.css" type="text/css" media="print">
+<link rel="stylesheet" id="all-css-2-1" href="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/saved_resource(1)" type="text/css" media="all">
+<script type="text/javascript">
+/* <![CDATA[ */
+var related_posts_js_options = {"post_heading":"h4"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/saved_resource(2)"></script>
+<link rel="stylesheet" id="all-css-0-2" href="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/style.css" type="text/css" media="all">
+<!--[if lt IE 8]>
+<link rel='stylesheet' id='highlander-comments-ie7-css'  href='https://s1.wp.com/wp-content/mu-plugins/highlander-comments/style-ie7.css?m=1351637563h&#038;ver=20110606' type='text/css' media='all' />
+<![endif]-->
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://theclevermachine.wordpress.com/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://s1.wp.com/wp-includes/wlwmanifest.xml"> 
+<link rel="prev" title="Model Selection: Underfitting, Overfitting, and the Bias-Variance Tradeoff" href="https://theclevermachine.wordpress.com/2013/04/21/model-selection-underfitting-overfitting-and-the-bias-variance-tradeoff/">
+<link rel="next" title="Derivation: Derivatives for Common Neural Network Activation Functions" href="https://theclevermachine.wordpress.com/2014/09/08/derivation-derivatives-for-common-neural-network-activation-functions/">
+<meta name="generator" content="WordPress.com">
+<link rel="canonical" href="https://theclevermachine.wordpress.com/2014/09/06/derivation-error-backpropagation-gradient-descent-for-neural-networks/">
+<link rel="shortlink" href="https://wp.me/p28c2Q-16W">
+<link rel="alternate" type="application/json+oembed" href="https://public-api.wordpress.com/oembed/?format=json&amp;url=https%3A%2F%2Ftheclevermachine.wordpress.com%2F2014%2F09%2F06%2Fderivation-error-backpropagation-gradient-descent-for-neural-networks%2F&amp;for=wpcom-auto-discovery"><link rel="alternate" type="application/xml+oembed" href="https://public-api.wordpress.com/oembed/?format=xml&amp;url=https%3A%2F%2Ftheclevermachine.wordpress.com%2F2014%2F09%2F06%2Fderivation-error-backpropagation-gradient-descent-for-neural-networks%2F&amp;for=wpcom-auto-discovery">
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="Derivation: Error Backpropagation &amp; Gradient Descent for Neural Networks">
+<meta property="og:url" content="https://theclevermachine.wordpress.com/2014/09/06/derivation-error-backpropagation-gradient-descent-for-neural-networks/">
+<meta property="og:description" content="Introduction Artificial neural networks (ANNs) are a powerful class of models used for nonlinear regression and classification tasks that are motivated by biological neural computation. The general…">
+<meta property="article:published_time" content="2014-09-07T05:46:25+00:00">
+<meta property="article:modified_time" content="2014-09-07T05:46:25+00:00">
+<meta property="og:site_name" content="The Clever Machine">
+<meta property="og:image" content="https://theclevermachine.files.wordpress.com/2014/09/neural-net.png">
+<meta property="og:image:width" content="828">
+<meta property="og:image:height" content="530">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:site" content="@corrcoef">
+<meta name="twitter:text:title" content="Derivation: Error Backpropagation &amp; Gradient Descent for Neural Networks">
+<meta name="twitter:image" content="https://theclevermachine.files.wordpress.com/2014/09/neural-net.png?w=240">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@corrcoef">
+<meta property="fb:app_id" content="249643311490">
+<meta property="article:publisher" content="https://www.facebook.com/WordPresscom">
+<link rel="shortcut icon" type="image/x-icon" href="https://secure.gravatar.com/blavatar/9537b168cbd2ad1f6cdaf5e0b56dc5e4?s=32" sizes="16x16">
+<link rel="icon" type="image/x-icon" href="https://secure.gravatar.com/blavatar/9537b168cbd2ad1f6cdaf5e0b56dc5e4?s=32" sizes="16x16">
+<link rel="apple-touch-icon-precomposed" href="https://secure.gravatar.com/blavatar/9537b168cbd2ad1f6cdaf5e0b56dc5e4?s=114">
+<link rel="openid.server" href="https://theclevermachine.wordpress.com/?openidserver=1">
+<link rel="openid.delegate" href="https://theclevermachine.wordpress.com/">
+<link rel="search" type="application/opensearchdescription+xml" href="https://theclevermachine.wordpress.com/osd.xml" title="The Clever Machine">
+<link rel="search" type="application/opensearchdescription+xml" href="https://s1.wp.com/opensearch.xml" title="WordPress.com">
+<meta name="theme-color" content="#0a0000">
+	<style type="text/css">
+			#page {
+			background: none;
+		}
+			</style>
+			<style type="text/css">
+			.recentcomments a {
+				display: inline !important;
+				padding: 0 !important;
+				margin: 0 !important;
+			}
+
+			table.recentcommentsavatartop img.avatar, table.recentcommentsavatarend img.avatar {
+				border: 0px;
+				margin: 0;
+			}
+
+			table.recentcommentsavatartop a, table.recentcommentsavatarend a {
+				border: 0px !important;
+				background-color: transparent !important;
+			}
+
+			td.recentcommentsavatarend, td.recentcommentsavatartop {
+				padding: 0px 0px 1px 0px;
+				margin: 0px;
+			}
+
+			td.recentcommentstextend {
+				border: none !important;
+				padding: 0px 0px 2px 10px;
+			}
+
+			.rtl td.recentcommentstextend {
+				padding: 0px 10px 2px 0px;
+			}
+
+			td.recentcommentstexttop {
+				border: none;
+				padding: 0px 0px 0px 10px;
+			}
+
+			.rtl td.recentcommentstexttop {
+				padding: 0px 10px 0px 0px;
+			}
+		</style>
+		<meta name="application-name" content="The Clever Machine"><meta name="msapplication-window" content="width=device-width;height=device-height"><meta name="msapplication-tooltip" content="Topics in Computational Neuroscience &amp; Machine Learning"><meta name="msapplication-task" content="name=Subscribe;action-uri=https://theclevermachine.wordpress.com/feed/;icon-uri=https://secure.gravatar.com/blavatar/9537b168cbd2ad1f6cdaf5e0b56dc5e4?s=16"><meta name="msapplication-task" content="name=Sign up for a free blog;action-uri=http://wordpress.com/signup/;icon-uri=https://s2.wp.com/i/favicon.ico"><meta name="msapplication-task" content="name=WordPress.com Support;action-uri=http://support.wordpress.com/;icon-uri=https://s2.wp.com/i/favicon.ico"><meta name="msapplication-task" content="name=WordPress.com Forums;action-uri=http://forums.wordpress.com/;icon-uri=https://s2.wp.com/i/favicon.ico"><meta name="title" content="Derivation: Error Backpropagation &amp; Gradient Descent for Neural Networks | The Clever Machine on WordPress.com">
+<meta name="description" content="Introduction Artificial neural networks (ANNs) are a powerful class of models used for nonlinear regression and classification tasks that are motivated by biological neural computation. The general idea behind ANNs is pretty straightforward: map some input onto a desired target value using a distributed cascade of nonlinear transformations (see Figure 1). However, for many, myself included,…">
+<style type="text/css" id="custom-background-css">
+body.custom-background { background-color: #0a0000; background-image: url("https://theclevermachine.files.wordpress.com/2013/04/colorfuldots.jpg"); background-position: right top; background-size: auto; background-repeat: no-repeat; background-attachment: fixed; }
+</style>
+		<script type="text/javascript">
+		var __ATA_PP = { pt: 1, ht: 0, tn: 'mystique', amp: false };
+		var __ATA = __ATA || {};
+		__ATA.cmd = __ATA.cmd || [];
+		__ATA.criteo = __ATA.criteo || {};
+		__ATA.criteo.cmd = __ATA.criteo.cmd || [];
+		</script>
+		<script type="text/javascript" src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/publishertag.js.download"></script>
+		<script type="text/javascript" src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/head.js.download" async=""></script><link rel="amphtml" href="https://theclevermachine.wordpress.com/2014/09/06/derivation-error-backpropagation-gradient-descent-for-neural-networks/amp/"><style type="text/css" id="syntaxhighlighteranchor"></style>
+<script type="text/javascript">
+	window.google_analytics_uacct = "UA-52447-2";
+</script>
+
+<script type="text/javascript">
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-52447-2']);
+	_gaq.push(['_setDomainName', 'wordpress.com']);
+	_gaq.push(['_initData']);
+	_gaq.push(['_trackPageview']);
+
+	(function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+	})();
+</script><script type="text/javascript" async="" src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/ga.js.download"></script>
+<style type="text/css"></style><script type="text/javascript" async="" src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/saved_resource(3)"></script><link rel="stylesheet" type="text/css" id="gravatar-card-css" href="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/hovercard.css"><link rel="stylesheet" type="text/css" id="gravatar-card-services-css" href="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/services.css"><script type="text/javascript" async="" src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/saved_resource(4)"></script><script type="text/javascript" charset="UTF-8" src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/apstag.js.download"></script></head>
+
+<body class="post-template-default single single-post postid-4274 single-format-standard custom-background mp6 customizer-styles-applied no-sidebar highlander-enabled highlander-light" data-gr-c-s-loaded="true">
+<div id="page">
+
+	<div id="container">
+
+		<ul class="skip">
+			<li><a href="https://theclevermachine.wordpress.com/2014/09/06/derivation-error-backpropagation-gradient-descent-for-neural-networks/#access">Skip to navigation</a></li>
+			<li><a href="https://theclevermachine.wordpress.com/2014/09/06/derivation-error-backpropagation-gradient-descent-for-neural-networks/#main">Skip to main content</a></li>
+			<li><a href="https://theclevermachine.wordpress.com/2014/09/06/derivation-error-backpropagation-gradient-descent-for-neural-networks/#sidebar">Skip to primary sidebar</a></li>
+			<li><a href="https://theclevermachine.wordpress.com/2014/09/06/derivation-error-backpropagation-gradient-descent-for-neural-networks/#sidebar2">Skip to secondary sidebar</a></li>
+			<li><a href="https://theclevermachine.wordpress.com/2014/09/06/derivation-error-backpropagation-gradient-descent-for-neural-networks/#footer">Skip to footer</a></li>
+		</ul>
+
+		<div id="header">
+			<div id="branding" class="clear-block">
+				<a class="home-link" href="https://theclevermachine.wordpress.com/" title="The Clever Machine" rel="home">
+					<h1 id="logo">The Clever Machine</h1>
+					<h2 id="site-description">Topics in Computational Neuroscience &amp; Machine Learning</h2>
+				</a>
+			</div><!-- #branding-->
+
+			<div id="access" class="clear-block" role="navigation">
+				<false class="menu"><ul>
+<li><a href="https://theclevermachine.wordpress.com/">Home</a></li><li class="page_item page-item-133"><a href="https://theclevermachine.wordpress.com/about-me/">About the Author</a></li>
+<li class="page_item page-item-13"><a href="https://theclevermachine.wordpress.com/about-theclevermachine/">About The Clever&nbsp;Machine</a></li>
+<li class="page_item page-item-3927"><a href="https://theclevermachine.wordpress.com/interact/">Blog Interface</a></li>
+</ul></false>
+
+				<div class="social-icons">
+
+					
+					
+					
+					
+					
+				</div><!-- .social-icons -->
+
+			</div><!-- #access -->
+
+							
+			</div><!-- #header-->
+
+			<div id="main">
+
+ 			<div id="content-container">
+	 			<div id="content">
+					
+						<div class="post-navigation nav-above">
+							<div class="nav-previous">
+								<a href="https://theclevermachine.wordpress.com/2013/04/21/model-selection-underfitting-overfitting-and-the-bias-variance-tradeoff/" rel="prev">← Model Selection: Underfitting, Overfitting, and the Bias-Variance&nbsp;Tradeoff</a>							</div>
+							<div class="nav-next">
+								<a href="https://theclevermachine.wordpress.com/2014/09/08/derivation-derivatives-for-common-neural-network-activation-functions/" rel="next">Derivation: Derivatives for Common Neural Network Activation&nbsp;Functions →</a>							</div>
+						</div><!-- .post-navigation -->
+
+						<div class="post-wrapper clear-block post-4274 post type-post status-publish format-standard hentry category-algorithms category-classification category-derivations category-gradient-descent category-machine-learning category-neural-networks category-optimization category-regression category-theory tag-backprop-derivation tag-backpropagation-algorithm tag-backpropagation-derivation tag-derivation tag-machine-learning tag-neural-networks">
+
+	
+			<h1 class="single-title">Derivation: Error Backpropagation &amp; Gradient Descent for Neural&nbsp;Networks</h1>	
+	<div class="post-date">
+		<p class="day"><a href="https://theclevermachine.wordpress.com/2014/09/06/derivation-error-backpropagation-gradient-descent-for-neural-networks/" rel="bookmark" title="Permanent Link to Derivation: Error Backpropagation &amp; Gradient Descent for Neural Networks">Sep 6</a></p>
+	</div><!-- .post-date -->
+
+	<div class="post-info clear-block">
+		<p class="author alignleft">Posted by <a href="https://theclevermachine.wordpress.com/author/dustinstansbury/" title="Posts by dustinstansbury" rel="author">dustinstansbury</a></p>
+	</div><!-- .post-info clear-block" -->
+
+	<div class="entry clear-block">
+		<h2>Introduction</h2>
+<p>Artificial neural networks (ANNs) are a powerful class of models used for nonlinear regression and classification tasks that are motivated by biological neural computation. The general idea behind ANNs is&nbsp;pretty straightforward: map some input onto a desired target value using a distributed cascade of nonlinear transformations (see Figure 1). However, for many, myself included, the learning algorithm used to train ANNs can be&nbsp;difficult to get your head around at first. In this post&nbsp;I give a step-by-step walk-through of the derivation of gradient descent learning algorithm commonly&nbsp;used to train ANNs (aka the <em>backpropagation algorithm</em>) and try to provide some high-level insights into the&nbsp;computations being performed during learning.</p>
+<div data-shortcode="caption" id="attachment_4296" style="max-width: 443px" class="wp-caption aligncenter"><a href="https://theclevermachine.files.wordpress.com/2014/09/neural-net.png"><img data-attachment-id="4296" data-permalink="https://theclevermachine.wordpress.com/2014/09/06/derivation-error-backpropagation-gradient-descent-for-neural-networks/neural-net/" data-orig-file="https://theclevermachine.files.wordpress.com/2014/09/neural-net.png" data-orig-size="828,530" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="neural-net" data-image-description="" data-medium-file="https://theclevermachine.files.wordpress.com/2014/09/neural-net.png?w=433&amp;h=277" data-large-file="https://theclevermachine.files.wordpress.com/2014/09/neural-net.png?w=828" class="wp-image-4296" src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/neural-net.png" alt="Artificial  Neural Network" width="433" height="277" srcset="https://theclevermachine.files.wordpress.com/2014/09/neural-net.png?w=433&amp;h=277 433w, https://theclevermachine.files.wordpress.com/2014/09/neural-net.png?w=150&amp;h=96 150w, https://theclevermachine.files.wordpress.com/2014/09/neural-net.png?w=300&amp;h=192 300w, https://theclevermachine.files.wordpress.com/2014/09/neural-net.png?w=768&amp;h=492 768w, https://theclevermachine.files.wordpress.com/2014/09/neural-net.png 828w" sizes="(max-width: 433px) 100vw, 433px"></a><p class="wp-caption-text">Figure 1: Diagram of an artificial neural network with one hidden layer</p></div>
+<p>&nbsp;</p>
+<h3>Some Background and Notation</h3>
+<p>An ANN consists of an input layer, an output layer, and any number (including zero) of hidden layers situated between the input and output layers. Figure 1&nbsp;diagrams an&nbsp;ANN with a single hidden layer. The feed-forward computations performed by the&nbsp;ANN are as follows: The signals from the input layer <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex.php" alt="a_i" title="a_i" class="latex"> are multiplied&nbsp;by a set of fully-connected weights <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(1).php" alt="w_{ij}" title="w_{ij}" class="latex"> connecting the input layer to the hidden layer. These weighted signals are then summed and combined with a bias <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(2).php" alt="b_i" title="b_i" class="latex"> (not displayed in the graphical model in Figure 1). This calculation forms the pre-activation signal <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(3).php" alt="z_j = b_j + \sum_i a_i w_{ij}" title="z_j = b_j + \sum_i a_i w_{ij}" class="latex"> for the hidden layer. The pre-activation signal is then transformed by the hidden layer activation function <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(4).php" alt="g_j" title="g_j" class="latex"> to form the feed-forward activation signals leaving leaving the&nbsp;hidden layer <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(5).php" alt="a_j" title="a_j" class="latex">. In a similar fashion, the hidden layer activation&nbsp;signals <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(5).php" alt="a_j" title="a_j" class="latex">&nbsp;are multiplied by the weights connecting the hidden layer to the output layer <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(6).php" alt="w_{jk}" title="w_{jk}" class="latex">, a bias <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(7).php" alt="b_k" title="b_k" class="latex"> is added,&nbsp;and the resulting signal is transformed by the output activation function <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(8).php" alt="g_k" title="g_k" class="latex"> to form the network output <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(9).php" alt="a_k" title="a_k" class="latex">. The output is then compared to a&nbsp;desired target <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(10).php" alt="t_k" title="t_k" class="latex"> and the error between the two is calculated.</p>
+<p>Training a neural network involves determining&nbsp;the set of parameters <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(11).php" alt="\theta = \{\mathbf{W},\mathbf{b}\}" title="\theta = \{\mathbf{W},\mathbf{b}\}" class="latex"> that minimize the errors that the network makes. Often the choice for the error function is the sum of the squared difference between the target values <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(10).php" alt="t_k" title="t_k" class="latex"> and the network output <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(9).php" alt="a_k" title="a_k" class="latex"> (for more detail on this choice of error function&nbsp;<a title="Sum of squares loss" href="https://theclevermachine.wordpress.com/2012/02/13/cutting-your-losses-loss-functions-predominance-of-sum-of-squares/" target="_blank">see</a>):</p>
+<p style="text-align:center;"><img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(12).php" alt="\Large{\begin{array}{rcl} E &amp;=&amp; \frac{1}{2} \sum_{k \in K}(a_k - t_k)^2 \end{array}}" title="\Large{\begin{array}{rcl} E &amp;=&amp; \frac{1}{2} \sum_{k \in K}(a_k - t_k)^2 \end{array}}" class="latex"></p>
+<p style="text-align:right;">Equation (1)</p>
+<p>This problem can be solved using gradient descent, which requires determining <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(13).php" alt="\frac{\partial E}{\partial \theta}" title="\frac{\partial E}{\partial \theta}" class="latex"> for all <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(14).php" alt="\theta" title="\theta" class="latex"> in the model. Note that, in general, there are two sets of parameters: those parameters that are associated with&nbsp;the output layer (i.e. <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(15).php" alt="\theta_k = \{w_{jk}, b_k\}" title="\theta_k = \{w_{jk}, b_k\}" class="latex">), and thus directly affect the network output error; and the remaining parameters that are associated with&nbsp;the hidden layer(s), and thus affect the output error indirectly.</p>
+<p>Before we begin, let’s define the notation that will be used in remainder of the derivation. Please refer to Figure 1 for any clarification.</p>
+<ul>
+<li><img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(16).php" alt="{z_j}" title="{z_j}" class="latex">: input to node <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(17).php" alt="j" title="j" class="latex"> for layer <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(18).php" alt="l" title="l" class="latex"></li>
+<li><img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(19).php" alt="{g_j}" title="{g_j}" class="latex">: activation function for node <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(17).php" alt="j" title="j" class="latex"> in layer <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(18).php" alt="l" title="l" class="latex"> (applied to <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(16).php" alt="{z_j}" title="{z_j}" class="latex">)</li>
+<li><img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(20).php" alt="a_j=g_j(z_j)" title="a_j=g_j(z_j)" class="latex">: ouput/activation of node <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(17).php" alt="j" title="j" class="latex"> in layer <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(18).php" alt="l" title="l" class="latex"></li>
+<li><img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(21).php" alt="{w_{ij}}" title="{w_{ij}}" class="latex">: weights connecting node <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(22).php" alt="i" title="i" class="latex"> in layer <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(23).php" alt="(l-1)" title="(l-1)" class="latex"> to node <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(17).php" alt="j" title="j" class="latex"> in layer <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(18).php" alt="l" title="l" class="latex"></li>
+<li><img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(24).php" alt="{b_{j}}" title="{b_{j}}" class="latex">: bias for unit <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(17).php" alt="j" title="j" class="latex"> in layer <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(18).php" alt="l" title="l" class="latex"></li>
+<li><img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(25).php" alt="{t_{k}}" title="{t_{k}}" class="latex">: target value for node <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(26).php" alt="k" title="k" class="latex"> in the output layer</li>
+</ul>
+<h2>Gradients for Output Layer Weights</h2>
+<h3>Output layer connection weights, <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(6).php" alt="w_{jk}" title="w_{jk}" class="latex"></h3>
+<p>Since the output layer parameters directly affect the value of the error function, determining&nbsp;the gradients for those parameters is&nbsp;fairly straight-forward:</p>
+<p style="text-align:center;"><img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(27).php" alt="\Large{\begin{array}{rcl} \frac{\partial E }{\partial w_{jk}} &amp;=&amp; \frac{1}{2} \sum_{k \in K}(a_k - t_k)^2 \\  &amp;=&amp; (a_k - t_k)\frac{\partial}{\partial w_{jk}}(a_k - t_k) \end{array}}" title="\Large{\begin{array}{rcl} \frac{\partial E }{\partial w_{jk}} &amp;=&amp; \frac{1}{2} \sum_{k \in K}(a_k - t_k)^2 \\  &amp;=&amp; (a_k - t_k)\frac{\partial}{\partial w_{jk}}(a_k - t_k) \end{array}}" class="latex"></p>
+<p style="text-align:right;">Equation (2)</p>
+<p>Here,&nbsp;we’ve used the <a title="Chain Rule" href="http://en.wikipedia.org/wiki/Chain_rule" target="_blank">Chain Rule</a>. (Also notice that the summation disappears in the derivative. This is because when we take the partial derivative with respect to the <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(17).php" alt="j" title="j" class="latex">-th&nbsp;dimension/node, the only term that survives in the error gradient is <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(17).php" alt="j" title="j" class="latex">-th, and thus we can ignore the remaining terms in the summation). The derivative with respect to <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(10).php" alt="t_k" title="t_k" class="latex"> is zero because it does not depend on <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(6).php" alt="w_{jk}" title="w_{jk}" class="latex">. Also, we note that <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(28).php" alt="a_k = g(z_k)" title="a_k = g(z_k)" class="latex">. Thus</p>
+<p style="text-align:center;"><img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(29).php" alt="\Large{\begin{array}{rcl}\frac{\partial E }{\partial w_{jk}} &amp;=&amp; (a_k - t_k)\frac{\partial}{\partial w_{jk}}a_k \\  &amp;=&amp; (a_k - t_k)\frac{\partial}{\partial w_{jk}}g_k(z_k) \\  &amp;=&amp; (a_k - t_k)g_k&#39;(z_k)\frac{\partial}{\partial w_{jk}}z_k, \end{array}}" title="\Large{\begin{array}{rcl}\frac{\partial E }{\partial w_{jk}} &amp;=&amp; (a_k - t_k)\frac{\partial}{\partial w_{jk}}a_k \\  &amp;=&amp; (a_k - t_k)\frac{\partial}{\partial w_{jk}}g_k(z_k) \\  &amp;=&amp; (a_k - t_k)g_k&#39;(z_k)\frac{\partial}{\partial w_{jk}}z_k, \end{array}}" class="latex"></p>
+<p style="text-align:right;">Equation (3)</p>
+<p>where, again we use the Chain Rule. Now, recall that <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(30).php" alt="z_k = b_j + \sum_j g_j(z_j)w_{jk}" title="z_k = b_j + \sum_j g_j(z_j)w_{jk}" class="latex"> and thus <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(31).php" alt="\frac{\partial z_{k}}{\partial w_{jk}} = g_j(z_j) = a_j" title="\frac{\partial z_{k}}{\partial w_{jk}} = g_j(z_j) = a_j" class="latex">, giving:</p>
+<p style="text-align:center;"><img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(32).php" alt="\Large{\begin{array}{rcl} \frac{\partial E }{\partial w_{jk}} &amp;=&amp; (a_k - t_k)g_k&#39;(z_k)a_j \end{array}}" title="\Large{\begin{array}{rcl} \frac{\partial E }{\partial w_{jk}} &amp;=&amp; (a_k - t_k)g_k&#39;(z_k)a_j \end{array}}" class="latex"></p>
+<p style="text-align:right;">Equation (4)</p>
+<p>The gradient of the error function with respect to the output layer weights is a product of three terms. The first term is the difference between the network output and the target value <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(10).php" alt="t_k" title="t_k" class="latex">. The second term is the derivative of output layer activation function. And the third term is the activation output of node j in the hidden layer.</p>
+<p>If we define <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(33).php" alt="\delta_k" title="\delta_k" class="latex"> to be all the terms that involve index k:</p>
+<p style="text-align:center;"><img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(34).php" alt="\Large{\begin{array}{rcl} \delta_k &amp;=&amp; (a_k - t_k)g_k&#39;(z_k)\end{array}}" title="\Large{\begin{array}{rcl} \delta_k &amp;=&amp; (a_k - t_k)g_k&#39;(z_k)\end{array}}" class="latex"></p>
+<p>we obtain&nbsp;the following expression for the derivative of the error with respect to the output weights <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(6).php" alt="w_{jk}" title="w_{jk}" class="latex">:</p>
+<p style="text-align:center;"><img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(35).php" alt="\Large{\begin{array}{rcl} \frac{\partial E }{\partial w_{jk}} = \delta_k a_j \end{array}}" title="\Large{\begin{array}{rcl} \frac{\partial E }{\partial w_{jk}} = \delta_k a_j \end{array}}" class="latex"></p>
+<p style="text-align:right;">Equation (5)</p>
+<p style="text-align:left;">Here the <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(33).php" alt="\delta_k" title="\delta_k" class="latex"> terms can be interpreted as the network output error after being back-propagated through the output activation function, thus creating an error “signal”. Loosely speaking, Equation (5) can be interpreted as determining how much each <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(6).php" alt="w_{jk}" title="w_{jk}" class="latex"> contributes to the error signal by weighting the error signal by the magnitude of the output activation from the previous (hidden) layer associated with each weight (see Figure 1). The gradients with respect to each parameter are&nbsp;thus&nbsp;considered to be&nbsp;the&nbsp;“contribution” of the parameter to the error signal and should&nbsp;be negated during learning. Thus&nbsp;the output weights are updated as <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(36).php" alt="w_{jk}\leftarrow w_{jk} - \eta \frac{\partial E }{\partial w_{jk}}" title="w_{jk}\leftarrow w_{jk} - \eta \frac{\partial E }{\partial w_{jk}}" class="latex">, where <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(37).php" alt="\eta" title="\eta" class="latex"> is some step size (“learning rate”) along the negative gradient.</p>
+<p>As we’ll see shortly,&nbsp;the process of backpropagating the error signal can iterate all the way back to the input layer by successively&nbsp;projecting <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(33).php" alt="\delta_k" title="\delta_k" class="latex"> back through&nbsp;<img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(6).php" alt="w_{jk}" title="w_{jk}" class="latex">, then through the activation function for the hidden layer via <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(38).php" alt="g&#39;_j" title="g&#39;_j" class="latex"> to give the error signal <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(39).php" alt="\delta_j" title="\delta_j" class="latex">, and so on. This backpropagation concept&nbsp;is central to training neural networks with more than one layer.</p>
+<h3>Output layer biases, <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(40).php" alt="\Large{b_{k}}" title="\Large{b_{k}}" class="latex"></h3>
+<p>As far as the gradient with respect to the output layer biases, we follow the same routine as above for <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(6).php" alt="w_{jk}" title="w_{jk}" class="latex">. However, the third term in Equation (3) is <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(41).php" alt="\frac{\partial}{\partial b_k} z_k = \frac{\partial}{\partial b_k} \left[ b_k + \sum_j g_j(z_j)\right] = 1" title="\frac{\partial}{\partial b_k} z_k = \frac{\partial}{\partial b_k} \left[ b_k + \sum_j g_j(z_j)\right] = 1" class="latex">, giving the following gradient for the output biases:</p>
+<p style="text-align:center;"><img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(42).php" alt="\Large{\begin{array}{rcl} \frac{\partial E }{\partial b_k} &amp;=&amp; (a_k - t_k)g_k&#39;(z_k)(1) \\  &amp;=&amp; \delta_k \end{array}}" title="\Large{\begin{array}{rcl} \frac{\partial E }{\partial b_k} &amp;=&amp; (a_k - t_k)g_k&#39;(z_k)(1) \\  &amp;=&amp; \delta_k \end{array}}" class="latex"></p>
+<p style="text-align:right;">Equation (6)</p>
+<p>Thus the gradient for the biases is simply the back-propagated error from the output units. One interpretation of this is that the biases are weights on activations that are always equal to one, regardless of the feed-forward&nbsp;signal. Thus the bias gradients aren’t affected by the feed-forward signal, only by the error.</p>
+<p>&nbsp;</p>
+<h2>Gradients for Hidden Layer Weights</h2>
+<p>Due to the indirect affect of the hidden layer on the output error, calculating the gradients for the hidden layer weights <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(1).php" alt="w_{ij}" title="w_{ij}" class="latex"> &nbsp;is somewhat more involved. However, the process starts just the same:</p>
+<p style="text-align:center;"><img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(43).php" alt="\Large{\begin{array}{rcl} \frac{\partial E }{\partial w_{ij}}&amp;=&amp;\frac{1}{2} \sum_{k \in K}(a_k - t_k)^2 \\  &amp;=&amp; \sum_{k \in K} (a_k - t_k) \frac{\partial}{\partial w_{ij}}a_k  \end{array}}" title="\Large{\begin{array}{rcl} \frac{\partial E }{\partial w_{ij}}&amp;=&amp;\frac{1}{2} \sum_{k \in K}(a_k - t_k)^2 \\  &amp;=&amp; \sum_{k \in K} (a_k - t_k) \frac{\partial}{\partial w_{ij}}a_k  \end{array}}" class="latex"></p>
+<p>Notice here that the sum does not disappear because, due to the fact that the layers are fully connected, each of the hidden unit outputs affects the state of each output unit. Continuing on, noting that <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(44).php" alt="a_k = g_k(z_k)" title="a_k = g_k(z_k)" class="latex">…</p>
+<p style="text-align:center;"><img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(45).php" alt="\Large{\begin{array}{rcl} \frac{\partial E }{\partial w_{ij}}&amp;=&amp; \sum_{k \in K} (a_k - t_k) \frac{\partial }{\partial w_{ij}}g_k(z_k) \\  &amp;=&amp; \sum_{k \in K} (a_k - t_k)g&#39;_k(z_k)\frac{\partial }{\partial w_{ij}}z_k  \end{array}}" title="\Large{\begin{array}{rcl} \frac{\partial E }{\partial w_{ij}}&amp;=&amp; \sum_{k \in K} (a_k - t_k) \frac{\partial }{\partial w_{ij}}g_k(z_k) \\  &amp;=&amp; \sum_{k \in K} (a_k - t_k)g&#39;_k(z_k)\frac{\partial }{\partial w_{ij}}z_k  \end{array}}" class="latex"></p>
+<p style="text-align:right;">Equation (7)</p>
+<p>Here, again we use the Chain Rule. Ok, now here’s where things get “slightly more involved”. Notice that the partial derivative in the third term in Equation (7) is with respect to <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(1).php" alt="w_{ij}" title="w_{ij}" class="latex">, but the target <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(46).php" alt="z_j" title="z_j" class="latex"> is a function of index <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(17).php" alt="j" title="j" class="latex">. How the heck do we deal with that!? Well, if we expand <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(47).php" alt="z_k" title="z_k" class="latex">, we find that it is composed of other sub functions (also see Figure 1):</p>
+<p style="text-align:center;"><img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(48).php" alt="\Large{\begin{array}{rcl} z_k &amp;=&amp; b_k + \sum_j a_jw_{jk} \\  &amp;=&amp; b_k + \sum_j g_j(z_j)w_{jk} \\  &amp;=&amp; b_k + \sum_j g_j(b_i + \sum_i z_i w_{ij})w_{jk}\end{array}}" title="\Large{\begin{array}{rcl} z_k &amp;=&amp; b_k + \sum_j a_jw_{jk} \\  &amp;=&amp; b_k + \sum_j g_j(z_j)w_{jk} \\  &amp;=&amp; b_k + \sum_j g_j(b_i + \sum_i z_i w_{ij})w_{jk}\end{array}}" class="latex"></p>
+<p style="text-align:right;">Equation (8)</p>
+<p>From the last term in Equation (8) we see that <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(47).php" alt="z_k" title="z_k" class="latex">&nbsp;is <em>indirectly</em> dependent on <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(1).php" alt="w_{ij}" title="w_{ij}" class="latex">. &nbsp;Equation (8) also suggests that we can use the Chain Rule to calculate <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(49).php" alt="\frac{\partial z_k }{\partial w_{ij}}" title="\frac{\partial z_k }{\partial w_{ij}}" class="latex">. This is probably the trickiest part of the derivation, and goes like…</p>
+<p style="text-align:center;"><img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(50).php" alt="\Large{\begin{array}{rcl} \frac{\partial z_k }{\partial w_{ij}} &amp;=&amp; \frac{\partial z_k}{\partial a_j}\frac{\partial a_j}{\partial w_{ij}} \\  &amp;=&amp; \frac{\partial}{\partial a_j}a_jw_{jk}\frac{\partial a_j}{\partial w_{ij}} \\  &amp;=&amp; w_{jk}\frac{\partial a_j}{\partial w_{ij}} \\  &amp;=&amp; w_{jk}\frac{\partial g_j(z_j)}{\partial w_{ij}} \\  &amp;=&amp; w_{jk}g_j&#39;(z_j)\frac{\partial z_j}{\partial w_{ij}} \\  &amp;=&amp; w_{jk}g_j&#39;(z_j)\frac{\partial}{\partial w_{ij}}(b_i + \sum_i a_i w_{ij}) \\  &amp;=&amp; w_{jk}g_j&#39;(z_j)a_i \end{array}}" title="\Large{\begin{array}{rcl} \frac{\partial z_k }{\partial w_{ij}} &amp;=&amp; \frac{\partial z_k}{\partial a_j}\frac{\partial a_j}{\partial w_{ij}} \\  &amp;=&amp; \frac{\partial}{\partial a_j}a_jw_{jk}\frac{\partial a_j}{\partial w_{ij}} \\  &amp;=&amp; w_{jk}\frac{\partial a_j}{\partial w_{ij}} \\  &amp;=&amp; w_{jk}\frac{\partial g_j(z_j)}{\partial w_{ij}} \\  &amp;=&amp; w_{jk}g_j&#39;(z_j)\frac{\partial z_j}{\partial w_{ij}} \\  &amp;=&amp; w_{jk}g_j&#39;(z_j)\frac{\partial}{\partial w_{ij}}(b_i + \sum_i a_i w_{ij}) \\  &amp;=&amp; w_{jk}g_j&#39;(z_j)a_i \end{array}}" class="latex"></p>
+<p style="text-align:right;">Equation (9)</p>
+<p>Now, plugging Equation (9) into <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(47).php" alt="z_k" title="z_k" class="latex"> in Equation (7) gives the following for <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(51).php" alt="\frac{\partial E}{\partial w_{ij}}" title="\frac{\partial E}{\partial w_{ij}}" class="latex">:</p>
+<p style="text-align:center;"><img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(52).php" alt="\Large{\begin{array}{rcl} \frac{\partial E }{\partial w_{ij}}&amp;=&amp; \sum_{k \in K} (a_k - t_k)g&#39;_k(z_k)w_{jk} g&#39;_j(z_j)a_i \\  &amp;=&amp; g&#39;_j(z_j)a_i \sum_{k \in K} (a_k - t_k)g&#39;_k(z_k)w_{jk} \\  &amp;=&amp; a_i g&#39;_j(z_j) \sum_{k \in K} \delta_k w_{jk} \end{array}}" title="\Large{\begin{array}{rcl} \frac{\partial E }{\partial w_{ij}}&amp;=&amp; \sum_{k \in K} (a_k - t_k)g&#39;_k(z_k)w_{jk} g&#39;_j(z_j)a_i \\  &amp;=&amp; g&#39;_j(z_j)a_i \sum_{k \in K} (a_k - t_k)g&#39;_k(z_k)w_{jk} \\  &amp;=&amp; a_i g&#39;_j(z_j) \sum_{k \in K} \delta_k w_{jk} \end{array}}" class="latex"></p>
+<p style="text-align:right;">Equation (10)</p>
+<p>Notice that the gradient for the hidden layer weights has a similar form to that of the gradient for the output layer weights. Namely the gradient is some term weighted by the output activations from the layer below (<img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex.php" alt="a_i" title="a_i" class="latex">). For the output weight gradients, the term that was weighted by <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(5).php" alt="a_j" title="a_j" class="latex"> was the back-propagated error signal <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(33).php" alt="\delta_k" title="\delta_k" class="latex"> (i.e. Equation (5)). Here, the weighted term includes <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(33).php" alt="\delta_k" title="\delta_k" class="latex">, but the error signal is further projected onto <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(6).php" alt="w_{jk}" title="w_{jk}" class="latex"> and then weighted by the derivative of hidden layer activation function <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(38).php" alt="g&#39;_j" title="g&#39;_j" class="latex">. Thus, the gradient for the hidden layer weights is simply the output error signal backpropagated to the hidden layer, then weighted by the input to the hidden layer. To make this idea more explicit, we can define the resulting error signal backpropagated to layer <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(17).php" alt="j" title="j" class="latex"> as <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(39).php" alt="\delta_j" title="\delta_j" class="latex">, and includes all terms in Equation (10) that involve index <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(17).php" alt="j" title="j" class="latex">. This definition results in the following gradient for the hidden unit weights:</p>
+<p style="text-align:center;"><img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(53).php" alt="\Large{\begin{array}{rcl} \frac{\partial E }{\partial w_{ij}}&amp;=&amp; a_i g&#39;_j(z_j) \sum_{k \in K} \delta_k w_{jk} \\  &amp;=&amp; \delta_j a_i \\  \text{where} \\  \delta_j &amp;=&amp; g&#39;_j(z_j) \sum_{k \in K} \delta_k w_{jk} \end{array}}" title="\Large{\begin{array}{rcl} \frac{\partial E }{\partial w_{ij}}&amp;=&amp; a_i g&#39;_j(z_j) \sum_{k \in K} \delta_k w_{jk} \\  &amp;=&amp; \delta_j a_i \\  \text{where} \\  \delta_j &amp;=&amp; g&#39;_j(z_j) \sum_{k \in K} \delta_k w_{jk} \end{array}}" class="latex"></p>
+<p style="text-align:right;">Equation (11)</p>
+<p>This suggests that in order to calculate the weight gradients at any layer <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(18).php" alt="l" title="l" class="latex"> in an arbitrarily-deep neural network, we simply need to calculate the backpropagated error signal that reaches that layer <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(54).php" alt="\delta_l" title="\delta_l" class="latex"> and weight it by the feed-forward signal <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(55).php" alt="a_{l-1}" title="a_{l-1}" class="latex">feeding into that layer! Analogously,&nbsp;the&nbsp;gradient for the hidden layer weights can be interpreted as a proxy for the “contribution” of the weights to the output error signal, which can only be observed–from the point of view of the weights–by backpropagating the error signal to the&nbsp;hidden layer.</p>
+<h3>Output layer biases, <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(56).php" alt="\Large{w_{ij}}" title="\Large{w_{ij}}" class="latex"></h3>
+<p>Calculating the&nbsp;gradients for the hidden layer biases follows a very similar procedure to that for the hidden layer weights where, as&nbsp;in Equation (9), we use the Chain Rule to calculate <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(57).php" alt="\frac{\partial z_k}{\partial b_i}" title="\frac{\partial z_k}{\partial b_i}" class="latex">. However, unlike Equation (9) the third term that results for the biases is slightly different:</p>
+<p style="text-align:center;"><img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(58).php" alt="\Large{\begin{array}{rcl} \frac{\partial z_k }{\partial b_i} &amp;=&amp; w_{jk}g_j&#39;(z_j)\frac{\partial z_j}{\partial b_i} \\  &amp;=&amp; w_{jk}g_j&#39;(z_j)\frac{\partial}{\partial b_i}(b_i + \sum_i a_i w_{ij}) \\  &amp;=&amp; w_{jk}g_j&#39;(z_j)(1), \\  \text{giving} \\  \frac{\partial E }{\partial b_i}&amp;=&amp; g&#39;_j(z_j) \sum_{k \in K} \delta_k w_{jk} \\  &amp;=&amp; \delta_j \end{array}}" title="\Large{\begin{array}{rcl} \frac{\partial z_k }{\partial b_i} &amp;=&amp; w_{jk}g_j&#39;(z_j)\frac{\partial z_j}{\partial b_i} \\  &amp;=&amp; w_{jk}g_j&#39;(z_j)\frac{\partial}{\partial b_i}(b_i + \sum_i a_i w_{ij}) \\  &amp;=&amp; w_{jk}g_j&#39;(z_j)(1), \\  \text{giving} \\  \frac{\partial E }{\partial b_i}&amp;=&amp; g&#39;_j(z_j) \sum_{k \in K} \delta_k w_{jk} \\  &amp;=&amp; \delta_j \end{array}}" class="latex"></p>
+<p style="text-align:right;">Equation (12)</p>
+<p>In a similar fashion to calculation of the bias gradients for the output layer, the gradients for the hidden layer biases are simply the backpropagated error signal reaching&nbsp;that layer. This suggests that we can also calculate the bias gradients at any layer <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(18).php" alt="l" title="l" class="latex"> in an arbitrarily-deep network by simply calculating the backpropagated error signal reaching that layer <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(54).php" alt="\delta_l" title="\delta_l" class="latex">!</p>
+<h2>Wrapping up</h2>
+<p>In this post we went over some of the formal details of the backpropagation learning algorithm. The math covered in this post allows us to train arbitrarily deep neural networks by re-applying the same basic computations. Those computations are:</p>
+<ol>
+<li>Calculated the feed-forward signals from the input to the output.</li>
+<li>Calculate output error <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(59).php" alt="E" title="E" class="latex">&nbsp;based on the predictions <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(9).php" alt="a_k" title="a_k" class="latex">&nbsp;and the target <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(10).php" alt="t_k" title="t_k" class="latex"></li>
+<li>Backpropagate the error signals by weighting it by the weights in previous layers and the gradients of the associated activation functions</li>
+<li>Calculating the gradients <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(13).php" alt="\frac{\partial E}{\partial \theta}" title="\frac{\partial E}{\partial \theta}" class="latex"> for the parameters based on the backpropagated error signal and the feedforward signals from the inputs.</li>
+<li>Update the parameters using the calculated gradients <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(60).php" alt="\theta \leftarrow \theta - \eta\frac{\partial E}{\partial \theta}" title="\theta \leftarrow \theta - \eta\frac{\partial E}{\partial \theta}" class="latex"></li>
+</ol>
+<p>The only real constraints on model construction is ensuring that the&nbsp;error function <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(59).php" alt="E" title="E" class="latex"> and the activation functions <img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/latex(61).php" alt="g_l" title="g_l" class="latex"> are differentiable. For more details on implementing&nbsp;ANNs and seeing them at work, stay tuned for the next post.</p>
+		<div class="wpcnt">
+			<div class="wpa wpmrec" style="display: inline-block !important;">
+				<span class="wpa-about">Advertisements</span>
+				<div class="u">		<div style="padding-bottom:15px;width:300px;height:250px;float:left;margin-right:5px;margin-top:0px">
+		<div id="atatags-26942-5a7293ad0fab8" style="overflow: hidden; position: relative; width: auto; height: auto;"><div style="width: 300px; height: 250px;"><iframe frameborder="0" scrolling="no" width="300" height="250" style="border:none;overflow:hidden;width:300px;height:250px;" data-integralas-id-679bc6c3-cfaa-e96e-9894-bcca29c96f9b="" src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/saved_resource.html"></iframe></div><div id="atatags-26942-5a7293ad0fab8__controls" style="width:300px;height:10px;text-align:right;line-height:6px;"><span id="atatags-26942-5a7293ad0fab8__complain-btn" style="font-size: 10px; color: rgb(109, 171, 210); text-decoration: underline; cursor: pointer; display: inline;">Report this ad</span></div></div></div>		<div style="padding-bottom:15px;width:300px;height:250px;float:left;margin-top:0px">
+		<div id="atatags-114160-5a7293ad0faf2" style="overflow: hidden; position: relative; width: auto; height: auto;"><div style="width: 300px; height: 250px;"><iframe frameborder="0" scrolling="no" width="300" height="250" style="border:none;overflow:hidden;width:300px;height:250px;" src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/saved_resource(11).html"></iframe></div><div id="atatags-114160-5a7293ad0faf2__controls" style="width:300px;height:10px;text-align:right;line-height:6px;"><span id="atatags-114160-5a7293ad0faf2__complain-btn" style="font-size: 10px; color: rgb(109, 171, 210); text-decoration: underline; cursor: pointer; display: inline;">Report this ad</span></div></div></div></div>
+						<div id="crt-2118449333" style="width: 300px; height: 250px; display: none !important;"></div>
+		<script type="text/javascript">
+(function(){var c=function(){var a=document.getElementById("crt-2118449333");window.Criteo?(a.parentNode.style.setProperty("display","inline-block","important"),a.style.setProperty("display","block","important"),window.Criteo.DisplayAcceptableAdIfAdblocked({zoneid:388248,containerid:"crt-2118449333",collapseContainerIfNotAdblocked:!0,callifnotadblocked:function(){a.style.setProperty("display","none","important");a.style.setProperty("visbility","hidden","important")}})):(a.style.setProperty("display","none","important"),a.style.setProperty("visibility","hidden","important"))};if(window.Criteo)c();else{if(!__ATA.criteo.script){var b=document.createElement("script");b.src="//static.criteo.net/js/ld/publishertag.js";b.onload=function(){for(var a=0;a<__ATA.criteo.cmd.length;a++){var b=__ATA.criteo.cmd[a];"function"===typeof b&&b()}};(document.head||document.getElementsByTagName("head")[0]).appendChild(b);__ATA.criteo.script=b}__ATA.criteo.cmd.push(c)}})();
+		</script>		<div id="crt-1138365625" style="width: 300px; height: 250px; display: none !important;"></div>
+		<script type="text/javascript">
+(function(){var c=function(){var a=document.getElementById("crt-1138365625");window.Criteo?(a.parentNode.style.setProperty("display","inline-block","important"),a.style.setProperty("display","block","important"),window.Criteo.DisplayAcceptableAdIfAdblocked({zoneid:837497,containerid:"crt-1138365625",collapseContainerIfNotAdblocked:!0,callifnotadblocked:function(){a.style.setProperty("display","none","important");a.style.setProperty("visbility","hidden","important")}})):(a.style.setProperty("display","none","important"),a.style.setProperty("visibility","hidden","important"))};if(window.Criteo)c();else{if(!__ATA.criteo.script){var b=document.createElement("script");b.src="//static.criteo.net/js/ld/publishertag.js";b.onload=function(){for(var a=0;a<__ATA.criteo.cmd.length;a++){var b=__ATA.criteo.cmd[a];"function"===typeof b&&b()}};(document.head||document.getElementsByTagName("head")[0]).appendChild(b);__ATA.criteo.script=b}__ATA.criteo.cmd.push(c)}})();
+		</script>
+			</div>
+		</div><div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" data-shared="sharing-twitter-4274" class="share-twitter sd-button share-icon" href="https://theclevermachine.wordpress.com/2014/09/06/derivation-error-backpropagation-gradient-descent-for-neural-networks/?share=twitter&amp;nb=1" target="_blank" title="Click to share on Twitter"><span>Twitter</span></a></li><li class="share-facebook"><a rel="nofollow" data-shared="sharing-facebook-4274" class="share-facebook sd-button share-icon" href="https://theclevermachine.wordpress.com/2014/09/06/derivation-error-backpropagation-gradient-descent-for-neural-networks/?share=facebook&amp;nb=1" target="_blank" title="Share on Facebook"><span>Facebook<span class="share-count">15</span></span></a></li><li class="share-end"></li></ul></div></div></div><div class="sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-loaded" id="like-post-wrapper-31505600-4274-5a7293ad13e38" data-src="//widgets.wp.com/likes/#blog_id=31505600&amp;post_id=4274&amp;origin=theclevermachine.wordpress.com&amp;obj_id=31505600-4274-5a7293ad13e38" data-name="like-post-frame-31505600-4274-5a7293ad13e38"><h3 class="sd-title">Like this:</h3><div class="likes-widget-placeholder post-likes-widget-placeholder" style="height: 55px; display: none;"><span class="button"><span>Like</span></span> <span class="loading">Loading...</span></div><iframe class="post-likes-widget jetpack-likes-widget" name="like-post-frame-31505600-4274-5a7293ad13e38" height="55px" width="100%" frameborder="0" src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/saved_resource(12).html"></iframe><span class="sd-text-color"></span><a class="sd-link-color"></a></div>
+<div id="jp-relatedposts" class="jp-relatedposts" style="display: block;">
+	<h3 class="jp-relatedposts-headline"><em>Related</em></h3>
+<div class="jp-relatedposts-items jp-relatedposts-items-minimal"><p class="jp-relatedposts-post jp-relatedposts-post0" data-post-id="4195" data-post-format="false"><span class="jp-relatedposts-post-title"><a class="jp-relatedposts-post-a" href="https://theclevermachine.wordpress.com/2014/09/11/a-gentle-introduction-to-artificial-neural-networks/" title="A Gentle Introduction to Artificial Neural Networks
+
+Introduction Though many phenomena in the world can be adequately modeled using linear regression or classification, most interesting phenomena are generally nonlinear in nature. In order to deal with nonlinear phenomena, there have been a diversity of nonlinear models developed. For example parametric models assume that data follow some parameteric…" rel="nofollow" data-origin="4274" data-position="0">A Gentle Introduction to Artificial Neural Networks</a></span><span class="jp-relatedposts-post-context">In "Classification"</span></p><p class="jp-relatedposts-post jp-relatedposts-post1" data-post-id="4178" data-post-format="false"><span class="jp-relatedposts-post-title"><a class="jp-relatedposts-post-a" href="https://theclevermachine.wordpress.com/2014/09/08/derivation-derivatives-for-common-neural-network-activation-functions/" title="Derivation: Derivatives for Common Neural Network Activation Functions
+
+Introduction When constructing Artificial Neural Network (ANN) models, one of the primary considerations is choosing activation functions for hidden and output layers that are differentiable. This is because calculating the backpropagated error signal that is used to determine ANN parameter updates requires the gradient of the activation function gradient . Three of the…" rel="nofollow" data-origin="4274" data-position="1">Derivation: Derivatives for Common Neural Network Activation Functions</a></span><span class="jp-relatedposts-post-context">In "Classification"</span></p><p class="jp-relatedposts-post jp-relatedposts-post2" data-post-id="4704" data-post-format="false"><span class="jp-relatedposts-post-title"><a class="jp-relatedposts-post-a" href="https://theclevermachine.wordpress.com/2014/09/23/derivation-maximum-likelihood-for-boltzmann-machines/" title="Derivation: Maximum Likelihood for Boltzmann Machines
+
+In this post I will review the gradient descent algorithm that is commonly used to train the general class of models known as Boltzmann machines. Though the primary goal of the post is to supplement another post on restricted Boltzmann machines, I hope that those readers who are curious about how Boltzmann machines are trained,…" rel="nofollow" data-origin="4274" data-position="2">Derivation: Maximum Likelihood for Boltzmann Machines</a></span><span class="jp-relatedposts-post-context">In "Density Estimation"</span></p></div></div></div>			</div><!-- .entry -->
+
+	
+			<div id="author-info-box">
+			<div id="author-avatar">
+				<img alt="" src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/7784f20a8ab6594810a2881feb496570" class="avatar avatar-60 grav-hashed grav-hijack" height="60" width="60" id="grav-7784f20a8ab6594810a2881feb496570-0">			</div><!-- #author-avatar -->
+			<div id="author-description">
+				<h2 id="author-info-title">About dustinstansbury</h2>
+				I recently received my PhD from UC Berkeley where I studied computational neuroscience and machine learning.			</div><!-- #author-description -->
+			<div id="author-link">
+				<a href="https://theclevermachine.wordpress.com/author/dustinstansbury/">
+					View all posts by dustinstansbury <span class="meta-nav">»</span>				</a>
+			</div><!-- #author-link -->
+		</div><!-- # author-info-box -->
+	
+</div><!-- .post-wrapper -->
+						<div class="post-utility">
+							<p class="details">
+								Posted on September 6, 2014, in <a href="https://theclevermachine.wordpress.com/category/algorithms/" rel="category tag">Algorithms</a>, <a href="https://theclevermachine.wordpress.com/category/algorithms/classification/" rel="category tag">Classification</a>, <a href="https://theclevermachine.wordpress.com/category/derivations/" rel="category tag">Derivations</a>, <a href="https://theclevermachine.wordpress.com/category/algorithms/gradient-descent/" rel="category tag">Gradient Descent</a>, <a href="https://theclevermachine.wordpress.com/category/algorithms/machine-learning/" rel="category tag">Machine Learning</a>, <a href="https://theclevermachine.wordpress.com/category/neural-networks/" rel="category tag">Neural Networks</a>, <a href="https://theclevermachine.wordpress.com/category/optimization/" rel="category tag">Optimization</a>, <a href="https://theclevermachine.wordpress.com/category/algorithms/regression/" rel="category tag">Regression</a>, <a href="https://theclevermachine.wordpress.com/category/theory/" rel="category tag">Theory</a> and tagged <a href="https://theclevermachine.wordpress.com/tag/backprop-derivation/" rel="tag">backprop derivation</a>, <a href="https://theclevermachine.wordpress.com/tag/backpropagation-algorithm/" rel="tag">backpropagation algorithm</a>, <a href="https://theclevermachine.wordpress.com/tag/backpropagation-derivation/" rel="tag">backpropagation derivation</a>, <a href="https://theclevermachine.wordpress.com/tag/derivation/" rel="tag">Derivation</a>, <a href="https://theclevermachine.wordpress.com/tag/machine-learning/" rel="tag">Machine Learning</a>, <a href="https://theclevermachine.wordpress.com/tag/neural-networks/" rel="tag">Neural Networks</a>. Bookmark the <a href="https://theclevermachine.wordpress.com/2014/09/06/derivation-error-backpropagation-gradient-descent-for-neural-networks/" title="Permalink to Derivation: Error Backpropagation &amp; Gradient Descent for Neural Networks" rel="bookmark">permalink</a>.								<a href="https://theclevermachine.wordpress.com/2014/09/06/derivation-error-backpropagation-gradient-descent-for-neural-networks/#comments">9 Comments</a>.															</p>
+						</div><!-- .post-utility -->
+
+						<div class="post-navigation nav-below">
+							<div class="nav-previous">
+								<a href="https://theclevermachine.wordpress.com/2013/04/21/model-selection-underfitting-overfitting-and-the-bias-variance-tradeoff/" rel="prev">← Model Selection: Underfitting, Overfitting, and the Bias-Variance&nbsp;Tradeoff</a>							</div>
+							<div class="nav-next">
+								<a href="https://theclevermachine.wordpress.com/2014/09/08/derivation-derivatives-for-common-neural-network-activation-functions/" rel="next">Derivation: Derivatives for Common Neural Network Activation&nbsp;Functions →</a>							</div>
+						</div><!-- .post-navigation -->
+
+					
+<div id="post-extra-content" class="clear-block">
+	
+		<div id="secondary-tabs">
+		<ul class="comment-tabs">
+						<li class="leave-a-comment">
+				<h3 class="comment-tab-title">
+					<a href="https://theclevermachine.wordpress.com/2014/09/06/derivation-error-backpropagation-gradient-descent-for-neural-networks/#respond" title="Leave a comment"> Leave a comment</a>
+				</h3>
+			</li>
+									<li>
+				<h3 class="comment-tab-title">
+					<a href="https://theclevermachine.wordpress.com/2014/09/06/derivation-error-backpropagation-gradient-descent-for-neural-networks/#trackbacks">Trackbacks 2</a>
+				</h3>
+			</li>
+									<li>
+				<h3 class="comment-tab-title">
+					<a href="https://theclevermachine.wordpress.com/2014/09/06/derivation-error-backpropagation-gradient-descent-for-neural-networks/#comments">Comments 7</a>
+				</h3>
+			</li>
+					</ul><!-- .comment-tabs -->
+	</div><!-- #secondary-tabs -->
+
+
+	
+	
+		
+
+		<div id="commentlist">
+
+			<ol id="comments">
+								<li class="comment byuser comment-author-dafeda even thread-even depth-1 highlander-comment" id="li-comment-299">
+		<div id="comment-299" class="tiptrigger">
+		<div class="comment-head comment-author vcard">
+			<img alt="" src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/ecda6fb2708abd75b2b6a86721a45813" class="avatar avatar-48 grav-hashed grav-hijack" height="48" width="48" id="grav-ecda6fb2708abd75b2b6a86721a45813-0">
+			<cite class="fn">daFeda</cite>
+
+			<span class="comment-meta commentmetadata">
+				|
+				<a href="https://theclevermachine.wordpress.com/2014/09/06/derivation-error-backpropagation-gradient-descent-for-neural-networks/#comment-299">
+				March 31, 2015 at 1:18 am</a>
+								</span><!-- .comment-meta .commentmetadata -->
+		</div><!-- .comment-head .comment-author .vcard -->
+		
+		<div class="comment-body">
+			<p>Hi, this is the first write-up on backpropagation I actually understand. Thanks.</p>
+<p>A few possible bugs:<br>
+1. Last part of Eq.8 should I think sum over a_i and not z_i.<br>
+2. Between Eq.3 and Eq.4 it should I think be z_k=b_k + … and not z_k=b_j …<br>
+3. Last section says Output layer bias while the derivation is for hidden layer bias. Also,<br>
+b_i seems to be used as the notation for hidden layer bias while it should be b_j.</p>
+<p>All in all, a very helpful post.</p>
+		</div><!-- .comment-body -->
+
+		 <div class="act tip">
+				 		<a rel="nofollow" class="comment-reply-link" href="https://theclevermachine.wordpress.com/2014/09/06/derivation-error-backpropagation-gradient-descent-for-neural-networks/?replytocom=299#respond" onclick="return addComment.moveForm( &quot;comment-299&quot;, &quot;299&quot;, &quot;respond&quot;, &quot;4274&quot; )" aria-label="Reply to daFeda">Reply</a>
+								 </div><!-- .act .tip -->
+
+	</div><!-- #comment-## -->
+</li><!-- #comment-## -->
+	<li class="comment byuser comment-author-dafeda odd alt thread-odd thread-alt depth-1 highlander-comment" id="li-comment-300">
+		<div id="comment-300" class="tiptrigger">
+		<div class="comment-head comment-author vcard">
+			<img alt="" src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/ecda6fb2708abd75b2b6a86721a45813" class="avatar avatar-48 grav-hashed grav-hijack" height="48" width="48" id="grav-ecda6fb2708abd75b2b6a86721a45813-1">
+			<cite class="fn">daFeda</cite>
+
+			<span class="comment-meta commentmetadata">
+				|
+				<a href="https://theclevermachine.wordpress.com/2014/09/06/derivation-error-backpropagation-gradient-descent-for-neural-networks/#comment-300">
+				March 31, 2015 at 1:19 am</a>
+								</span><!-- .comment-meta .commentmetadata -->
+		</div><!-- .comment-head .comment-author .vcard -->
+		
+		<div class="comment-body">
+			<p>Reblogged this on <a href="https://dafeda.wordpress.com/2015/03/31/derivation-error-backpropagation-gradient-descent-for-neural-networks/" rel="nofollow">DaFeda's Blog</a> and commented:<br>
+The easiest to follow derivation of backpropagation I’ve come across.</p>
+		</div><!-- .comment-body -->
+
+		 <div class="act tip">
+				 		<a rel="nofollow" class="comment-reply-link" href="https://theclevermachine.wordpress.com/2014/09/06/derivation-error-backpropagation-gradient-descent-for-neural-networks/?replytocom=300#respond" onclick="return addComment.moveForm( &quot;comment-300&quot;, &quot;300&quot;, &quot;respond&quot;, &quot;4274&quot; )" aria-label="Reply to daFeda">Reply</a>
+								 </div><!-- .act .tip -->
+
+	</div><!-- #comment-## -->
+</li><!-- #comment-## -->
+	<li class="comment even thread-even depth-1 highlander-comment" id="li-comment-344">
+		<div id="comment-344" class="tiptrigger">
+		<div class="comment-head comment-author vcard">
+			<img alt="" src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/27e6303669f854882d672f3cd3fcb796" class="avatar avatar-48 grav-hashed grav-hijack" height="48" width="48" id="grav-27e6303669f854882d672f3cd3fcb796-0">
+			<cite class="fn">Ayan Das</cite>
+
+			<span class="comment-meta commentmetadata">
+				|
+				<a href="https://theclevermachine.wordpress.com/2014/09/06/derivation-error-backpropagation-gradient-descent-for-neural-networks/#comment-344">
+				July 4, 2015 at 9:46 am</a>
+								</span><!-- .comment-meta .commentmetadata -->
+		</div><!-- .comment-head .comment-author .vcard -->
+		
+		<div class="comment-body">
+			<p>Probably the best derivation of BackProp I’ve ever seen on internet <img draggable="false" class="emoji" alt="🙂" src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/1f642.svg"></p>
+		</div><!-- .comment-body -->
+
+		 <div class="act tip">
+				 		<a rel="nofollow" class="comment-reply-link" href="https://theclevermachine.wordpress.com/2014/09/06/derivation-error-backpropagation-gradient-descent-for-neural-networks/?replytocom=344#respond" onclick="return addComment.moveForm( &quot;comment-344&quot;, &quot;344&quot;, &quot;respond&quot;, &quot;4274&quot; )" aria-label="Reply to Ayan Das">Reply</a>
+								 </div><!-- .act .tip -->
+
+	</div><!-- #comment-## -->
+</li><!-- #comment-## -->
+	<li class="comment odd alt thread-odd thread-alt depth-1 highlander-comment" id="li-comment-358">
+		<div id="comment-358" class="tiptrigger">
+		<div class="comment-head comment-author vcard">
+			<img alt="" src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/91ccd7f36795890ff9a6f532b39756e9" class="avatar avatar-48 grav-hashed grav-hijack" height="48" width="48" id="grav-91ccd7f36795890ff9a6f532b39756e9-0">
+			<cite class="fn">Devin</cite>
+
+			<span class="comment-meta commentmetadata">
+				|
+				<a href="https://theclevermachine.wordpress.com/2014/09/06/derivation-error-backpropagation-gradient-descent-for-neural-networks/#comment-358">
+				August 12, 2015 at 12:08 pm</a>
+								</span><!-- .comment-meta .commentmetadata -->
+		</div><!-- .comment-head .comment-author .vcard -->
+		
+		<div class="comment-body">
+			<p>Thanks. Nice clean explanation.</p>
+		</div><!-- .comment-body -->
+
+		 <div class="act tip">
+				 		<a rel="nofollow" class="comment-reply-link" href="https://theclevermachine.wordpress.com/2014/09/06/derivation-error-backpropagation-gradient-descent-for-neural-networks/?replytocom=358#respond" onclick="return addComment.moveForm( &quot;comment-358&quot;, &quot;358&quot;, &quot;respond&quot;, &quot;4274&quot; )" aria-label="Reply to Devin">Reply</a>
+								 </div><!-- .act .tip -->
+
+	</div><!-- #comment-## -->
+</li><!-- #comment-## -->
+	<li class="comment even thread-even depth-1 highlander-comment" id="li-comment-363">
+		<div id="comment-363" class="tiptrigger">
+		<div class="comment-head comment-author vcard">
+			<img alt="" src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/2f9b0c0fe1439a7a24add46f4b24bb77" class="avatar avatar-48 grav-hashed grav-hijack" height="48" width="48" id="grav-2f9b0c0fe1439a7a24add46f4b24bb77-0">
+			<cite class="fn">Arnab Kanti Kar</cite>
+
+			<span class="comment-meta commentmetadata">
+				|
+				<a href="https://theclevermachine.wordpress.com/2014/09/06/derivation-error-backpropagation-gradient-descent-for-neural-networks/#comment-363">
+				August 28, 2015 at 10:33 am</a>
+								</span><!-- .comment-meta .commentmetadata -->
+		</div><!-- .comment-head .comment-author .vcard -->
+		
+		<div class="comment-body">
+			<p>Thank you !<br>
+Second time benefited from your blog ..</p>
+		</div><!-- .comment-body -->
+
+		 <div class="act tip">
+				 		<a rel="nofollow" class="comment-reply-link" href="https://theclevermachine.wordpress.com/2014/09/06/derivation-error-backpropagation-gradient-descent-for-neural-networks/?replytocom=363#respond" onclick="return addComment.moveForm( &quot;comment-363&quot;, &quot;363&quot;, &quot;respond&quot;, &quot;4274&quot; )" aria-label="Reply to Arnab Kanti Kar">Reply</a>
+								 </div><!-- .act .tip -->
+
+	</div><!-- #comment-## -->
+</li><!-- #comment-## -->
+	<li class="comment odd alt thread-odd thread-alt depth-1 highlander-comment" id="li-comment-588">
+		<div id="comment-588" class="tiptrigger">
+		<div class="comment-head comment-author vcard">
+			<img alt="" src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/81b382b7d7fd5fc3e84fd1fdf1c78f1f" class="avatar avatar-48 grav-hashed grav-hijack" height="48" width="48" id="grav-81b382b7d7fd5fc3e84fd1fdf1c78f1f-0">
+			<cite class="fn">Donghao Liu</cite>
+
+			<span class="comment-meta commentmetadata">
+				|
+				<a href="https://theclevermachine.wordpress.com/2014/09/06/derivation-error-backpropagation-gradient-descent-for-neural-networks/#comment-588">
+				February 17, 2016 at 5:45 pm</a>
+								</span><!-- .comment-meta .commentmetadata -->
+		</div><!-- .comment-head .comment-author .vcard -->
+		
+		<div class="comment-body">
+			<p>Best introduction about back prop ever!<br>
+Thank you so much.</p>
+		</div><!-- .comment-body -->
+
+		 <div class="act tip">
+				 		<a rel="nofollow" class="comment-reply-link" href="https://theclevermachine.wordpress.com/2014/09/06/derivation-error-backpropagation-gradient-descent-for-neural-networks/?replytocom=588#respond" onclick="return addComment.moveForm( &quot;comment-588&quot;, &quot;588&quot;, &quot;respond&quot;, &quot;4274&quot; )" aria-label="Reply to Donghao Liu">Reply</a>
+								 </div><!-- .act .tip -->
+
+	</div><!-- #comment-## -->
+</li><!-- #comment-## -->
+	<li class="comment byuser comment-author-mysticprince93 even thread-even depth-1 highlander-comment" id="li-comment-870">
+		<div id="comment-870" class="tiptrigger">
+		<div class="comment-head comment-author vcard">
+			<img alt="" src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/7e11b911709109f95f4eea9d8a52f99e" class="avatar avatar-48 grav-hashed grav-hijack" height="48" width="48" id="grav-7e11b911709109f95f4eea9d8a52f99e-0">
+			<cite class="fn"><a href="http://gravatar.com/mysticprince93" rel="external nofollow" class="url">mysticprince93</a></cite>
+
+			<span class="comment-meta commentmetadata">
+				|
+				<a href="https://theclevermachine.wordpress.com/2014/09/06/derivation-error-backpropagation-gradient-descent-for-neural-networks/#comment-870">
+				January 27, 2017 at 6:51 am</a>
+								</span><!-- .comment-meta .commentmetadata -->
+		</div><!-- .comment-head .comment-author .vcard -->
+		
+		<div class="comment-body">
+			<p>Really useful! Though there are a few typos, as daFeda has mentioned.</p>
+		</div><!-- .comment-body -->
+
+		 <div class="act tip">
+				 		<a rel="nofollow" class="comment-reply-link" href="https://theclevermachine.wordpress.com/2014/09/06/derivation-error-backpropagation-gradient-descent-for-neural-networks/?replytocom=870#respond" onclick="return addComment.moveForm( &quot;comment-870&quot;, &quot;870&quot;, &quot;respond&quot;, &quot;4274&quot; )" aria-label="Reply to mysticprince93">Reply</a>
+								 </div><!-- .act .tip -->
+
+	</div><!-- #comment-## -->
+</li><!-- #comment-## -->
+						</ol><!-- #comments -->
+
+						<ol id="trackbacks">
+					<li class="post pingback">
+		<p>Pingback: <a href="https://theclevermachine.wordpress.com/2014/09/08/derivation-derivatives-for-common-neural-network-activation-functions/" rel="external nofollow" class="url">Derivation: Derivatives for Common Neural Network Activation Functions | The Clever Machine</a></p>
+	</li>
+<!-- #comment-## -->
+	<li class="post pingback">
+		<p>Pingback: <a href="https://theclevermachine.wordpress.com/2014/09/11/a-gentle-introduction-to-artificial-neural-networks/" rel="external nofollow" class="url">A Gentle Introduction to Artificial Neural Networks | The Clever Machine</a></p>
+	</li>
+<!-- #comment-## -->
+			</ol><!-- #trackbacks -->
+			
+			
+		</div><!-- #comment-list -->
+
+	
+		<div id="respond" class="comment-respond js">
+		<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="https://theclevermachine.wordpress.com/2014/09/06/derivation-error-backpropagation-gradient-descent-for-neural-networks/#respond" style="display:none;">Cancel reply</a></small></h3>			<form action="https://theclevermachine.wordpress.com/wp-comments-post.php" method="post" id="commentform" class="comment-form">
+				<input type="hidden" id="highlander_comment_nonce" name="highlander_comment_nonce" value="70e5a50203"><input type="hidden" name="_wp_http_referer" value="/2014/09/06/derivation-error-backpropagation-gradient-descent-for-neural-networks/">
+<input type="hidden" name="hc_post_as" id="hc_post_as" value="guest">
+
+<div class="comment-form-field comment-textarea">
+	
+	<div id="comment-form-comment"><textarea tabindex="-1" style="position: absolute; top: -999px; left: 0px; right: auto; bottom: auto; border: 0px; padding: 0px; box-sizing: content-box; word-wrap: break-word; overflow: hidden; transition: none; height: 0px !important; min-height: 0px !important; font-family: Arial, Helvetica, Tahoma, Verdana, sans-serif; font-size: 14px; font-weight: 400; font-style: normal; letter-spacing: 0px; text-transform: none; text-decoration: none solid rgba(0, 0, 0, 0.7); word-spacing: 0px; text-indent: 0px; line-height: normal; width: 892px;" class="autosizejs "></textarea><textarea id="comment" name="comment" title="Enter your comment here..." placeholder="Enter your comment here..." style="height: 36px; overflow: hidden; word-wrap: break-word; resize: none;"></textarea></div>
+</div>
+
+<div id="comment-form-identity" style="display: none;">
+
+	<div id="comment-form-nascar">
+		<p>Fill in your details below or click an icon to log in:</p>
+		<ul>
+			<li class="selected" style="display:none;">
+				<a href="https://theclevermachine.wordpress.com/2014/09/06/derivation-error-backpropagation-gradient-descent-for-neural-networks/#comment-form-guest" id="postas-guest" title="Guest">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="https://theclevermachine.wordpress.com/2014/09/06/derivation-error-backpropagation-gradient-descent-for-neural-networks/#comment-form-load-service:WordPress.com" id="postas-wordpress" title="WordPress.com">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="https://theclevermachine.wordpress.com/2014/09/06/derivation-error-backpropagation-gradient-descent-for-neural-networks/#comment-form-load-service:Twitter" id="postas-twitter" title="Twitter">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="https://theclevermachine.wordpress.com/2014/09/06/derivation-error-backpropagation-gradient-descent-for-neural-networks/#comment-form-load-service:Facebook" id="postas-facebook" title="Facebook">
+					<span></span>
+				</a>
+			</li>
+			<li>
+			<iframe id="googleplus-sign-in" name="googleplus-sign-in" src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/saved_resource(13).html" width="24" height="24" scrolling="no" allowtransparency="true" seamless="seamless" frameborder="0"></iframe>
+			</li>
+		</ul>
+	</div>
+
+	<div id="comment-form-guest" class="comment-form-service selected">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+<a href="https://gravatar.com/site/signup/" target="_blank">				<img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/ad516503a11cd5ca435acc9bb6523536" alt="Gravatar" width="25" class="no-grav">
+</a>			</div>
+
+				<div class="comment-form-fields">
+				<div class="comment-form-field comment-form-email">
+					<label for="email">Email <span class="required">(required)</span> <span class="nopublish">(Address never made public)</span></label>
+					<div class="comment-form-input"><input id="email" name="email" type="email" value=""></div>
+				</div>
+				<div class="comment-form-field comment-form-author">
+					<label for="author">Name <span class="required">(required)</span></label>
+					<div class="comment-form-input"><input id="author" name="author" type="text" value=""></div>
+				</div>
+				<div class="comment-form-field comment-form-url">
+					<label for="url">Website</label>
+					<div class="comment-form-input"><input id="url" name="url" type="url" value=""></div>
+				</div>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-wordpress" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/ad516503a11cd5ca435acc9bb6523536" alt="WordPress.com Logo" width="25" class="no-grav">
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="wp_avatar" id="wordpress-avatar" class="comment-meta-wordpress" value="">
+				<input type="hidden" name="wp_user_id" id="wordpress-user_id" class="comment-meta-wordpress" value="">
+				<input type="hidden" name="wp_access_token" id="wordpress-access_token" class="comment-meta-wordpress" value="">
+				<p class="comment-form-posting-as pa-wordpress"><strong></strong> You are commenting using your <span class="skimlinks-unlinked">WordPress.com</span> account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( &#39;wordpress&#39; );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="https://theclevermachine.wordpress.com/2014/09/06/derivation-error-backpropagation-gradient-descent-for-neural-networks/#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-twitter" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/ad516503a11cd5ca435acc9bb6523536" alt="Twitter picture" width="25" class="no-grav">
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="twitter_avatar" id="twitter-avatar" class="comment-meta-twitter" value="">
+				<input type="hidden" name="twitter_user_id" id="twitter-user_id" class="comment-meta-twitter" value="">
+				<input type="hidden" name="twitter_access_token" id="twitter-access_token" class="comment-meta-twitter" value="">
+				<p class="comment-form-posting-as pa-twitter"><strong></strong> You are commenting using your Twitter account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( &#39;twitter&#39; );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="https://theclevermachine.wordpress.com/2014/09/06/derivation-error-backpropagation-gradient-descent-for-neural-networks/#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-facebook" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/ad516503a11cd5ca435acc9bb6523536" alt="Facebook photo" width="25" class="no-grav">
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="fb_avatar" id="facebook-avatar" class="comment-meta-facebook" value="">
+				<input type="hidden" name="fb_user_id" id="facebook-user_id" class="comment-meta-facebook" value="">
+				<input type="hidden" name="fb_access_token" id="facebook-access_token" class="comment-meta-facebook" value="">
+				<p class="comment-form-posting-as pa-facebook"><strong></strong> You are commenting using your Facebook account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( &#39;facebook&#39; );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="https://theclevermachine.wordpress.com/2014/09/06/derivation-error-backpropagation-gradient-descent-for-neural-networks/#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-googleplus" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/ad516503a11cd5ca435acc9bb6523536" alt="Google+ photo" width="25" class="no-grav">
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="googleplus_avatar" id="googleplus-avatar" class="comment-meta-googleplus" value="">
+				<input type="hidden" name="googleplus_user_id" id="googleplus-user_id" class="comment-meta-googleplus" value="">
+				<input type="hidden" name="googleplus_access_token" id="googleplus-access_token" class="comment-meta-googleplus" value="">
+				<p class="comment-form-posting-as pa-googleplus"><strong></strong> You are commenting using your Google+ account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( &#39;googleplus&#39; );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="https://theclevermachine.wordpress.com/2014/09/06/derivation-error-backpropagation-gradient-descent-for-neural-networks/#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+
+	<div id="comment-form-load-service" class="comment-form-service">
+		<div class="comment-form-posting-as-cancel"><a href="javascript:HighlanderComments.cancelExternalWindow();">Cancel</a></div>
+		<p>Connecting to %s</p>
+	</div>
+
+</div>
+
+<script type="text/javascript">
+var highlander_expando_javascript = function(){
+	var input = document.createElement( 'input' ),
+	    comment = jQuery( '#comment' );
+
+	if ( 'placeholder' in input ) {
+		comment.attr( 'placeholder', jQuery( '.comment-textarea label' ).remove().text() );
+	}
+
+	// Expando Mode: start small, then auto-resize on first click + text length
+	jQuery( '#comment-form-identity' ).hide();
+	jQuery( '#comment-form-subscribe' ).hide();
+	jQuery( '#commentform .form-submit' ).hide();
+
+	comment.css( { 'height':'10px' } ).one( 'focus', function() {
+		var timer = setInterval( HighlanderComments.resizeCallback, 10 )
+		jQuery( this ).animate( { 'height': HighlanderComments.initialHeight } ).delay( 100 ).queue( function(n) { clearInterval( timer ); HighlanderComments.resizeCallback(); n(); } );
+		jQuery( '#comment-form-identity' ).slideDown();
+		jQuery( '#comment-form-subscribe' ).slideDown();
+		jQuery( '#commentform .form-submit' ).slideDown();
+	});
+}
+jQuery(document).ready( highlander_expando_javascript );
+</script>
+
+<div id="comment-form-subscribe" style="display: none;">
+	<p class="comment-subscription-form"><input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;"> <label class="subscribe-label" id="subscribe-label" for="subscribe" style="display: inline;">Notify me of new comments via email.</label></p></div>
+
+
+
+
+<p class="form-submit" style="display: none;"><input name="submit" type="submit" id="comment-submit" class="submit" value="Post Comment"> <input type="hidden" name="comment_post_ID" value="4274" id="comment_post_ID">
+<input type="hidden" name="comment_parent" id="comment_parent" value="0">
+</p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="fd42944956"></p>
+<input type="hidden" name="genseq" value="1517458349">
+<p style="display: none;"></p>			<input type="hidden" id="ak_js" name="ak_js" value="1517458372250"></form>
+			</div><!-- #respond -->
+	<div style="clear: both"></div>
+</div><!-- #post-extra-content -->
+									</div><!-- #content -->
+			</div><!-- #content-container -->
+
+
+	<div id="sidebar" class="widget-area" role="complementary">
+				<div class="wpcnt">
+			<div class="wpa wpmrec" style="display: inline-block !important;">
+				<span class="wpa-about">Advertisements</span>
+				<div class="u">
+							<div style="padding-bottom:15px;width:300px;height:250px;">
+		<div id="atatags-286348-5a7293ad1c46e" style="overflow: hidden; position: relative; width: auto; height: auto;"><div style="width: 300px; height: 250px;"><iframe frameborder="0" scrolling="no" width="300" height="250" style="border:none;overflow:hidden;width:300px;height:250px;" src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/saved_resource(14).html"></iframe></div><div id="atatags-286348-5a7293ad1c46e__controls" style="width:300px;height:10px;text-align:right;line-height:6px;"><span id="atatags-286348-5a7293ad1c46e__complain-btn" style="font-size: 10px; color: rgb(109, 171, 210); text-decoration: underline; cursor: pointer; display: inline;">Report this ad</span></div></div></div>
+				</div>
+						<div id="crt-1277860631" style="width: 300px; height: 250px; display: block !important;"></div>
+		<script type="text/javascript">
+(function(){var c=function(){var a=document.getElementById("crt-1277860631");window.Criteo?(a.parentNode.style.setProperty("display","inline-block","important"),a.style.setProperty("display","block","important"),window.Criteo.DisplayAcceptableAdIfAdblocked({zoneid:388248,containerid:"crt-1277860631",collapseContainerIfNotAdblocked:!0,callifnotadblocked:function(){a.style.setProperty("display","none","important");a.style.setProperty("visbility","hidden","important")}})):(a.style.setProperty("display","none","important"),a.style.setProperty("visibility","hidden","important"))};if(window.Criteo)c();else{if(!__ATA.criteo.script){var b=document.createElement("script");b.src="//static.criteo.net/js/ld/publishertag.js";b.onload=function(){for(var a=0;a<__ATA.criteo.cmd.length;a++){var b=__ATA.criteo.cmd[a];"function"===typeof b&&b()}};(document.head||document.getElementsByTagName("head")[0]).appendChild(b);__ATA.criteo.script=b}__ATA.criteo.cmd.push(c)}})();
+		</script>
+			</div>
+		</div>		<ul class="xoxo">
+
+		<li id="search-2" class="widget widget_search">
+<form method="get" id="searchform" action="https://theclevermachine.wordpress.com/">
+	<div id="searchfield">
+		<label for="s" class="screen-reader-text">Search for:</label>
+		<input type="text" name="s" id="s" class="searchtext">
+		<input type="submit" value="Go" class="searchbutton">
+	</div>
+</form></li><li id="blog_subscription-2" class="widget widget_blog_subscription"><h3 class="widget-title"><span><label for="subscribe-field">Follow TheCleverMachine</label></span></h3>
+				<form action="https://subscribe.wordpress.com/" method="post" accept-charset="utf-8" id="subscribe-blog">
+											<p>To receive update notifications, enter your email here</p>
+						<p><input type="text" name="email" style="width: 95%; padding: 1px 2px" placeholder="Enter your email address" value="" id="subscribe-field"></p>
+					
+					<p>
+						<input type="hidden" name="action" value="subscribe">
+						<input type="hidden" name="blog_id" value="31505600">
+						<input type="hidden" name="source" value="https://theclevermachine.wordpress.com/2014/09/06/derivation-error-backpropagation-gradient-descent-for-neural-networks/">
+						<input type="hidden" name="sub-type" value="widget">
+						<input type="hidden" name="redirect_fragment" value="blog_subscription-2">
+						<input type="hidden" id="_wpnonce" name="_wpnonce" value="d64acd76c7">						<input type="submit" value="Follow">
+					</p>
+				</form>
+			
+</li><li id="tag_cloud-2" class="widget widget_tag_cloud"><h3 class="widget-title"><span>Categories</span></h3><div style="overflow: hidden;"><a href="https://theclevermachine.wordpress.com/category/algorithms/" style="font-size: 160.29411764706%; padding: 1px; margin: 1px;" title="Algorithms (8)">Algorithms</a> <a href="https://theclevermachine.wordpress.com/category/algorithms/classification/" style="font-size: 102.94117647059%; padding: 1px; margin: 1px;" title="Classification (3)">Classification</a> <a href="https://theclevermachine.wordpress.com/category/data-preprocessing/" style="font-size: 80%; padding: 1px; margin: 1px;" title="Data Preprocessing (1)">Data Preprocessing</a> <a href="https://theclevermachine.wordpress.com/category/algorithms/density-estimation/" style="font-size: 125.88235294118%; padding: 1px; margin: 1px;" title="Density Estimation (5)">Density Estimation</a> <a href="https://theclevermachine.wordpress.com/category/derivations/" style="font-size: 137.35294117647%; padding: 1px; margin: 1px;" title="Derivations (6)">Derivations</a> <a href="https://theclevermachine.wordpress.com/category/algorithms/feature-learning/" style="font-size: 80%; padding: 1px; margin: 1px;" title="Feature Learning (1)">Feature Learning</a> <a href="https://theclevermachine.wordpress.com/category/fmri/" style="font-size: 114.41176470588%; padding: 1px; margin: 1px;" title="fMRI (4)">fMRI</a> <a href="https://theclevermachine.wordpress.com/category/algorithms/gradient-descent/" style="font-size: 102.94117647059%; padding: 1px; margin: 1px;" title="Gradient Descent (3)">Gradient Descent</a> <a href="https://theclevermachine.wordpress.com/category/tips-tricks/latex/" style="font-size: 80%; padding: 1px; margin: 1px;" title="LaTeX (1)">LaTeX</a> <a href="https://theclevermachine.wordpress.com/category/algorithms/machine-learning/" style="font-size: 114.41176470588%; padding: 1px; margin: 1px;" title="Machine Learning (4)">Machine Learning</a> <a href="https://theclevermachine.wordpress.com/category/tips-tricks/matlab/" style="font-size: 80%; padding: 1px; margin: 1px;" title="MATLAB (1)">MATLAB</a> <a href="https://theclevermachine.wordpress.com/category/maximum-likelihood/" style="font-size: 80%; padding: 1px; margin: 1px;" title="Maximum Likelihood (1)">Maximum Likelihood</a> <a href="https://theclevermachine.wordpress.com/category/mcmc/" style="font-size: 91.470588235294%; padding: 1px; margin: 1px;" title="MCMC (2)">MCMC</a> <a href="https://theclevermachine.wordpress.com/category/neural-networks/" style="font-size: 114.41176470588%; padding: 1px; margin: 1px;" title="Neural Networks (4)">Neural Networks</a> <a href="https://theclevermachine.wordpress.com/category/neuroscience/" style="font-size: 114.41176470588%; padding: 1px; margin: 1px;" title="Neuroscience (4)">Neuroscience</a> <a href="https://theclevermachine.wordpress.com/category/optimization/" style="font-size: 91.470588235294%; padding: 1px; margin: 1px;" title="Optimization (2)">Optimization</a> <a href="https://theclevermachine.wordpress.com/category/proofs/" style="font-size: 80%; padding: 1px; margin: 1px;" title="Proofs (1)">Proofs</a> <a href="https://theclevermachine.wordpress.com/category/algorithms/regression/" style="font-size: 183.23529411765%; padding: 1px; margin: 1px;" title="Regression (10)">Regression</a> <a href="https://theclevermachine.wordpress.com/category/algorithms/sampling/" style="font-size: 102.94117647059%; padding: 1px; margin: 1px;" title="Sampling (3)">Sampling</a> <a href="https://theclevermachine.wordpress.com/category/sampling-methods/" style="font-size: 183.23529411765%; padding: 1px; margin: 1px;" title="Sampling Methods (10)">Sampling Methods</a> <a href="https://theclevermachine.wordpress.com/category/simulations/" style="font-size: 183.23529411765%; padding: 1px; margin: 1px;" title="Simulations (10)">Simulations</a> <a href="https://theclevermachine.wordpress.com/category/statistics/" style="font-size: 275%; padding: 1px; margin: 1px;" title="Statistics (18)">Statistics</a> <a href="https://theclevermachine.wordpress.com/category/theory/" style="font-size: 114.41176470588%; padding: 1px; margin: 1px;" title="Theory (4)">Theory</a> <a href="https://theclevermachine.wordpress.com/category/tips-tricks/" style="font-size: 80%; padding: 1px; margin: 1px;" title="Tips &amp; Tricks (1)">Tips &amp; Tricks</a> <a href="https://theclevermachine.wordpress.com/category/uncategorized/" style="font-size: 91.470588235294%; padding: 1px; margin: 1px;" title="Uncategorized (2)">Uncategorized</a> </div></li>		<li id="recent-posts-2" class="widget widget_recent_entries">		<h3 class="widget-title"><span>Recent Posts</span></h3>		<ul>
+											<li>
+					<a href="https://theclevermachine.wordpress.com/2014/09/23/derivation-maximum-likelihood-for-boltzmann-machines/">Derivation: Maximum Likelihood for Boltzmann&nbsp;Machines</a>
+									</li>
+											<li>
+					<a href="https://theclevermachine.wordpress.com/2014/09/11/a-gentle-introduction-to-artificial-neural-networks/">A Gentle Introduction to Artificial Neural&nbsp;Networks</a>
+									</li>
+											<li>
+					<a href="https://theclevermachine.wordpress.com/2014/09/08/derivation-derivatives-for-common-neural-network-activation-functions/">Derivation: Derivatives for Common Neural Network Activation&nbsp;Functions</a>
+									</li>
+											<li>
+					<a href="https://theclevermachine.wordpress.com/2014/09/06/derivation-error-backpropagation-gradient-descent-for-neural-networks/">Derivation: Error Backpropagation &amp; Gradient Descent for Neural&nbsp;Networks</a>
+									</li>
+											<li>
+					<a href="https://theclevermachine.wordpress.com/2013/04/21/model-selection-underfitting-overfitting-and-the-bias-variance-tradeoff/">Model Selection: Underfitting, Overfitting, and the Bias-Variance&nbsp;Tradeoff</a>
+									</li>
+											<li>
+					<a href="https://theclevermachine.wordpress.com/2013/04/21/supplemental-proof-1/">Supplemental Proof 1</a>
+									</li>
+											<li>
+					<a href="https://theclevermachine.wordpress.com/2013/03/30/the-statistical-whitening-transform/">The Statistical Whitening&nbsp;Transform</a>
+									</li>
+											<li>
+					<a href="https://theclevermachine.wordpress.com/2013/03/29/covariance-matrices-and-data-distributions/">Covariance Matrices and Data&nbsp;Distributions</a>
+									</li>
+											<li>
+					<a href="https://theclevermachine.wordpress.com/2013/01/14/fmri-in-neuroscience-efficiency-of-event-related-experiment-designs/">fMRI In Neuroscience: Efficiency of Event-related Experiment&nbsp;Designs</a>
+									</li>
+											<li>
+					<a href="https://theclevermachine.wordpress.com/2013/01/14/derivation-the-covariance-matrix-of-an-ols-estimator-and-applications-to-gls/">Derivation: The Covariance Matrix of an OLS Estimator (and applications to&nbsp;GLS)</a>
+									</li>
+					</ul>
+		</li><li id="archives-2" class="widget widget_archive"><h3 class="widget-title"><span>Archives</span></h3>		<ul>
+			<li><a href="https://theclevermachine.wordpress.com/2014/09/">September 2014</a></li>
+	<li><a href="https://theclevermachine.wordpress.com/2013/04/">April 2013</a></li>
+	<li><a href="https://theclevermachine.wordpress.com/2013/03/">March 2013</a></li>
+	<li><a href="https://theclevermachine.wordpress.com/2013/01/">January 2013</a></li>
+	<li><a href="https://theclevermachine.wordpress.com/2012/12/">December 2012</a></li>
+	<li><a href="https://theclevermachine.wordpress.com/2012/11/">November 2012</a></li>
+	<li><a href="https://theclevermachine.wordpress.com/2012/10/">October 2012</a></li>
+	<li><a href="https://theclevermachine.wordpress.com/2012/09/">September 2012</a></li>
+	<li><a href="https://theclevermachine.wordpress.com/2012/03/">March 2012</a></li>
+	<li><a href="https://theclevermachine.wordpress.com/2012/02/">February 2012</a></li>
+	<li><a href="https://theclevermachine.wordpress.com/2012/01/">January 2012</a></li>
+		</ul>
+		</li><li id="meta-2" class="widget widget_meta"><h3 class="widget-title"><span>Meta</span></h3>			<ul>
+			<li><a href="https://wordpress.com/start?ref=wplogin">Register</a></li>			<li><a href="https://theclevermachine.wordpress.com/wp-login.php">Log in</a></li>
+			<li><a href="https://theclevermachine.wordpress.com/feed/">Entries <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="https://theclevermachine.wordpress.com/comments/feed/">Comments <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="https://wordpress.com/" title="Powered by WordPress, state-of-the-art semantic personal publishing platform.">WordPress.com</a></li>			</ul>
+			</li>
+		</ul>
+	</div><!-- #sidebar .widget-area -->
+
+	
+</div><!-- #main -->
+
+		<div id="footer" role="contentinfo">
+			
+				<div id="copyright">
+					<p>
+	 					<a href="https://wordpress.com/?ref=footer_blog">Blog at WordPress.com.</a>
+											</p>
+				</div><!-- #copyright -->
+			</div><!-- #footer -->
+	</div><!-- #container -->
+</div><!-- #page -->
+
+<!--  -->
+<script type="text/javascript" src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/gprofiles.js.download"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/wpgroho.js.download"></script>
+
+	<script>
+		//initialize and attach hovercards to all gravatars
+		jQuery( document ).ready( function( $ ) {
+
+			if (typeof Gravatar === "undefined"){
+				return;
+			}
+
+			if ( typeof Gravatar.init !== "function" ) {
+				return;
+			}			
+
+			Gravatar.profile_cb = function( hash, id ) {
+				WPGroHo.syncProfileData( hash, id );
+			};
+			Gravatar.my_hash = WPGroHo.my_hash;
+			Gravatar.init( 'body', '#wp-admin-bar-my-account' );
+		});
+	</script>
+
+		<div style="display:none">
+	<div class="grofile-hash-map-7784f20a8ab6594810a2881feb496570">
+	</div>
+	<div class="grofile-hash-map-ecda6fb2708abd75b2b6a86721a45813">
+	</div>
+	<div class="grofile-hash-map-27e6303669f854882d672f3cd3fcb796">
+	</div>
+	<div class="grofile-hash-map-91ccd7f36795890ff9a6f532b39756e9">
+	</div>
+	<div class="grofile-hash-map-2f9b0c0fe1439a7a24add46f4b24bb77">
+	</div>
+	<div class="grofile-hash-map-81b382b7d7fd5fc3e84fd1fdf1c78f1f">
+	</div>
+	<div class="grofile-hash-map-7e11b911709109f95f4eea9d8a52f99e">
+	</div>
+	</div>
+<script type="text/javascript">
+/* <![CDATA[ */
+var HighlanderComments = {"loggingInText":"Logging In\u2026","submittingText":"Posting Comment\u2026","postCommentText":"Post Comment","connectingToText":"Connecting to %s","commentingAsText":"%1$s: You are commenting using your %2$s account.","logoutText":"Log Out","loginText":"Log In","connectURL":"https:\/\/theclevermachine.wordpress.com\/public.api\/connect\/?action=request","logoutURL":"https:\/\/theclevermachine.wordpress.com\/wp-login.php?action=logout&_wpnonce=cf3b70a144","homeURL":"https:\/\/theclevermachine.wordpress.com\/","postID":"4274","gravDefault":"identicon","enterACommentError":"Please enter a comment","enterEmailError":"Please enter your email address here","invalidEmailError":"Invalid email address","enterAuthorError":"Please enter your name here","gravatarFromEmail":"This picture will show whenever you leave a comment. Click to customize it.","logInToExternalAccount":"Log in to use details from one of these accounts.","change":"Change","changeAccount":"Change Account","comment_registration":"0","userIsLoggedIn":"","isJetpack":"","text_direction":"ltr"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/saved_resource(5)"></script>
+
+	<div id="carousel-reblog-box">
+		<form action="https://theclevermachine.wordpress.com/2014/09/06/derivation-error-backpropagation-gradient-descent-for-neural-networks/#" name="carousel-reblog">
+			<textarea id="carousel-reblog-content" name="carousel-reblog-content" placeholder="Add your thoughts here... (optional)"></textarea>
+			<label for="carousel-reblog-to-blog-id" id="carousel-reblog-lblogid">Post to</label>
+			<select name="carousel-reblog-to-blog-id" id="carousel-reblog-to-blog-id">
+						</select>
+
+			<div class="submit">
+				<span class="canceltext"><a href="https://theclevermachine.wordpress.com/2014/09/06/derivation-error-backpropagation-gradient-descent-for-neural-networks/#" class="cancel">Cancel</a></span>
+				<input type="submit" name="carousel-reblog-submit" class="button" id="carousel-reblog-submit" value="Reblog Post">
+				<input type="hidden" id="carousel-reblog-blog-id" value="31505600">
+				<input type="hidden" id="carousel-reblog-blog-url" value="https://theclevermachine.wordpress.com">
+				<input type="hidden" id="carousel-reblog-blog-title" value="The Clever Machine">
+				<input type="hidden" id="carousel-reblog-post-url" value="">
+				<input type="hidden" id="carousel-reblog-post-title" value="">
+			</div>
+
+			<input type="hidden" id="_wpnonce" name="_wpnonce" value="c94edcccd0"><input type="hidden" name="_wp_http_referer" value="/2014/09/06/derivation-error-backpropagation-gradient-descent-for-neural-networks/">		</form>
+
+		<div class="arrow"></div>
+	</div>
+
+	<script type="text/javascript">
+		window.WPCOM_sharing_counts = {"https:\/\/theclevermachine.wordpress.com\/2014\/09\/06\/derivation-error-backpropagation-gradient-descent-for-neural-networks\/":4274};
+	</script>
+		<script type="text/javascript">
+			var windowOpen;
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-twitter' ).on( 'click', function() {
+				if ( 'undefined' !== typeof windowOpen ){ // If there's another sharing window open, close it.
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery(this).attr( 'href' ), 'wpcomtwitter', 'menubar=1,resizable=1,width=600,height=350' );
+				return false;
+			});
+		});
+		</script>
+				<script type="text/javascript">
+			var windowOpen;
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-facebook' ).on( 'click', function() {
+				if ( 'undefined' !== typeof windowOpen ){ // If there's another sharing window open, close it.
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery(this).attr( 'href' ), 'wpcomfacebook', 'menubar=1,resizable=1,width=600,height=400' );
+				return false;
+			});
+		});
+		</script>
+		<link rel="stylesheet" id="all-css-0-3" href="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/jetpack-carousel.css" type="text/css" media="all">
+<!--[if lte IE 8]>
+<link rel='stylesheet' id='jetpack-carousel-ie8fix-css'  href='https://s1.wp.com/wp-content/mu-plugins/carousel/jetpack-carousel-ie8fix.css?m=1412618825h&#038;ver=20121024' type='text/css' media='all' />
+<![endif]-->
+<script type="text/javascript">
+/* <![CDATA[ */
+var actionbardata = {"siteID":"31505600","siteName":"The Clever Machine","siteURL":"http:\/\/theclevermachine.wordpress.com","icon":"<img alt='' src='https:\/\/secure.gravatar.com\/blavatar\/9537b168cbd2ad1f6cdaf5e0b56dc5e4?s=50&d=https%3A%2F%2Fs1.wp.com%2Fi%2Flogo%2Fwpcom-gray-white.png' class='avatar avatar-50' height='50' width='50' \/>","canManageOptions":"","canCustomizeSite":"","isFollowing":"","themeSlug":"pub\/mystique","signupURL":"https:\/\/wordpress.com\/start\/","loginURL":"https:\/\/theclevermachine.wordpress.com\/wp-login.php?redirect_to=https%3A%2F%2Ftheclevermachine.wordpress.com%2F2014%2F09%2F06%2Fderivation-error-backpropagation-gradient-descent-for-neural-networks%2F","themeURL":"","xhrURL":"https:\/\/theclevermachine.wordpress.com\/wp-admin\/admin-ajax.php","nonce":"bed26feb34","isSingular":"1","isFolded":"","isLoggedIn":"","isMobile":"","subscribeNonce":"<input type=\"hidden\" id=\"_wpnonce\" name=\"_wpnonce\" value=\"d64acd76c7\" \/>","referer":"https:\/\/theclevermachine.wordpress.com\/2014\/09\/06\/derivation-error-backpropagation-gradient-descent-for-neural-networks\/","canFollow":"1","feedID":"4535288","statusMessage":"","customizeLink":"https:\/\/theclevermachine.wordpress.com\/wp-admin\/customize.php?url=https%3A%2F%2Ftheclevermachine.wordpress.com%2F2014%2F09%2F06%2Fderivation-error-backpropagation-gradient-descent-for-neural-networks%2F","postID":"4274","shortlink":"https:\/\/wp.me\/p28c2Q-16W","canEditPost":"","editLink":"https:\/\/wordpress.com\/post\/theclevermachine.wordpress.com\/4274","statsLink":"https:\/\/wordpress.com\/stats\/post\/4274\/theclevermachine.wordpress.com","i18n":{"view":"View site","follow":"Follow","following":"Following","edit":"Edit","login":"Log in","signup":"Sign up","customize":"Customize","report":"Report this content","themeInfo":"Get theme: Mystique","shortlink":"Copy shortlink","copied":"Copied","followedText":"New posts from this site will now appear in your <a href=\"https:\/\/wordpress.com\/\">Reader<\/a>","foldBar":"Collapse this bar","unfoldBar":"Expand this bar","editSubs":"Manage subscriptions","viewReader":"View site in Reader","viewReadPost":"View post in Reader","subscribe":"Sign me up","enterEmail":"Enter your email address","followers":"Join 736 other followers","alreadyUser":"Already have a WordPress.com account? <a href=\"https:\/\/theclevermachine.wordpress.com\/wp-login.php?redirect_to=https%3A%2F%2Ftheclevermachine.wordpress.com%2F2014%2F09%2F06%2Fderivation-error-backpropagation-gradient-descent-for-neural-networks%2F\">Log in now.<\/a>","stats":"Stats"}};
+/* ]]> */
+</script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var jetpackCarouselStrings = {"widths":[370,700,1000,1200,1400,2000],"is_logged_in":"","lang":"en","ajaxurl":"https:\/\/theclevermachine.wordpress.com\/wp-admin\/admin-ajax.php","nonce":"13d0ff5c27","display_exif":"1","display_geo":"1","single_image_gallery":"1","single_image_gallery_media_file":"","background_color":"black","comment":"Comment","post_comment":"Post Comment","write_comment":"Write a Comment...","loading_comments":"Loading Comments...","download_original":"View full size <span class=\"photo-size\">{0}<span class=\"photo-size-times\">\u00d7<\/span>{1}<\/span>","no_comment_text":"Please be sure to submit some text with your comment.","no_comment_email":"Please provide an email address to comment.","no_comment_author":"Please provide your name to comment.","comment_post_error":"Sorry, but there was an error posting your comment. Please try again later.","comment_approved":"Your comment was approved.","comment_unapproved":"Your comment is in moderation.","camera":"Camera","aperture":"Aperture","shutter_speed":"Shutter Speed","focal_length":"Focal Length","comment_registration":"0","require_name_email":"1","login_url":"https:\/\/theclevermachine.wordpress.com\/wp-login.php?redirect_to=https%3A%2F%2Ftheclevermachine.wordpress.com%2F2014%2F09%2F06%2Fderivation-error-backpropagation-gradient-descent-for-neural-networks%2F","blog_id":"31505600","local_comments_commenting_as":"<fieldset><label for=\"email\">Email (Required)<\/label> <input type=\"text\" name=\"email\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-email-field\" \/><\/fieldset><fieldset><label for=\"author\">Name (Required)<\/label> <input type=\"text\" name=\"author\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-author-field\" \/><\/fieldset><fieldset><label for=\"url\">Website<\/label> <input type=\"text\" name=\"url\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-url-field\" \/><\/fieldset>","reblog":"Reblog","reblogged":"Reblogged","reblog_add_thoughts":"Add your thoughts here... (optional)","reblogging":"Reblogging...","post_reblog":"Post Reblog","stats_query_args":"blog=31505600&v=wpcom&tz=-8&user_id=0&subd=theclevermachine","is_public":"1","reblog_enabled":""};
+/* ]]> */
+</script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var sharing_js_options = {"lang":"en","counts":"1"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/saved_resource(6)"></script><div id="actionbar" class="actnbr-pub-mystique actnbr-has-follow"><ul><li class="actnbr-btn actnbr-hidden"> 			    	<a class="actnbr-action actnbr-actn-follow" href="https://theclevermachine.wordpress.com/2014/09/06/derivation-error-backpropagation-gradient-descent-for-neural-networks/"><svg class="gridicon gridicon__follow" height="24px" width="24px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g><path d="M23 16v2h-3v3h-2v-3h-3v-2h3v-3h2v3h3zM20 2v9h-4v3h-3v4H4c-1.1 0-2-.9-2-2V2h18zM8 13v-1H4v1h4zm3-3H4v1h7v-1zm0-2H4v1h7V8zm7-4H4v2h14V4z"></path></g></svg><span>Follow</span></a> 			    	<div class="actnbr-popover tip tip-top-left actnbr-notice"> 			    		<div class="tip-arrow"></div> 			    		<div class="tip-inner actnbr-follow-bubble"></div> 			    	</div> 			    </li><li class="actnbr-ellipsis actnbr-hidden"> 			  <svg class="gridicon gridicon__ellipsis" height="24" width="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g><circle cx="5" cy="12" r="2"></circle><circle cx="19" cy="12" r="2"></circle><circle cx="12" cy="12" r="2"></circle></g></svg> 			  <div class="actnbr-popover tip tip-top-left actnbr-more"> 			  	<div class="tip-arrow"></div> 			  	<div class="tip-inner"> 				  <ul> 				    <li class="actnbr-sitename"><a href="http://theclevermachine.wordpress.com/"><img alt="" src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/9537b168cbd2ad1f6cdaf5e0b56dc5e4" class="avatar avatar-50" height="50" width="50"> The Clever Machine</a></li> 				   	<li class="actnbr-folded-customize"><a href="https://theclevermachine.wordpress.com/wp-admin/customize.php?url=https%3A%2F%2Ftheclevermachine.wordpress.com%2F2014%2F09%2F06%2Fderivation-error-backpropagation-gradient-descent-for-neural-networks%2F"><svg class="gridicon gridicon__customize" height="20px" width="20px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g><path d="M2 6c0-1.505.78-3.08 2-4 0 .845.69 2 2 2 1.657 0 3 1.343 3 3 0 .386-.08.752-.212 1.09.74.594 1.476 1.19 2.19 1.81L8.9 11.98c-.62-.716-1.214-1.454-1.807-2.192C6.753 9.92 6.387 10 6 10c-2.21 0-4-1.79-4-4zm12.152 6.848l1.34-1.34c.607.304 1.283.492 2.008.492 2.485 0 4.5-2.015 4.5-4.5 0-.725-.188-1.4-.493-2.007L18 9l-2-2 3.507-3.507C18.9 3.188 18.225 3 17.5 3 15.015 3 13 5.015 13 7.5c0 .725.188 1.4.493 2.007L3 20l2 2 6.848-6.848c1.885 1.928 3.874 3.753 5.977 5.45l1.425 1.148 1.5-1.5-1.15-1.425c-1.695-2.103-3.52-4.092-5.448-5.977z" data-reactid=".2.1.1:0.1b.0"></path></g></svg><span>Customize<span></span></span></a></li> 				    <li class="actnbr-folded-follow"><a class="actnbr-action actnbr-actn-follow" href="https://theclevermachine.wordpress.com/2014/09/06/derivation-error-backpropagation-gradient-descent-for-neural-networks/"><svg class="gridicon gridicon__follow" height="24px" width="24px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g><path d="M23 16v2h-3v3h-2v-3h-3v-2h3v-3h2v3h3zM20 2v9h-4v3h-3v4H4c-1.1 0-2-.9-2-2V2h18zM8 13v-1H4v1h4zm3-3H4v1h7v-1zm0-2H4v1h7V8zm7-4H4v2h14V4z"></path></g></svg><span>Follow</span></a></li> 					<li class="actnbr-signup"><a href="https://wordpress.com/start/">Sign up</a></li> 				    <li class="actnbr-login"><a href="https://theclevermachine.wordpress.com/wp-login.php?redirect_to=https%3A%2F%2Ftheclevermachine.wordpress.com%2F2014%2F09%2F06%2Fderivation-error-backpropagation-gradient-descent-for-neural-networks%2F">Log in</a></li> 				     				    <li class="actnbr-shortlink"><a href="https://wp.me/p28c2Q-16W">Copy shortlink</a></li> 				    <li class="flb-report"><a href="http://en.wordpress.com/abuse/">Report this content</a></li> 				     				     				    <li class="actnbr-subs"><a href="https://subscribe.wordpress.com/">Manage subscriptions</a></li> 				    <li class="actnbr-fold"><a href="https://theclevermachine.wordpress.com/2014/09/06/derivation-error-backpropagation-gradient-descent-for-neural-networks/">Collapse this bar</a></li> 			      </ul> 			    </div> 		      </div> 		    </li> 	      </ul></div>
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script>	<script type="text/javascript">
+	var skimlinks_pub_id = "725X584219"
+	var skimlinks_sitename = "theclevermachine.wordpress.com";
+	</script>
+	<script type="text/javascript" defer="" src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/725X1342.skimlinks.js.download"></script>		<iframe src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/master.html" scrolling="no" id="likes-master" name="likes-master" style="display:none;"></iframe>
+		<div id="likes-other-gravatars"><div class="likes-text"><span>%d</span> bloggers like this:</div><ul class="wpl-avatars sd-like-gravatars"></ul></div>
+<script src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/w.js.download" type="text/javascript" async="" defer=""></script>
+<script type="text/javascript">
+_tkq = window._tkq || [];
+_stq = window._stq || [];
+_tkq.push(['storeContext', {'blog_id':'31505600','blog_tz':'-8','user_lang':'en','blog_lang':'en','user_id':'0'}]);
+_stq.push(['view', {'blog':'31505600','v':'wpcom','tz':'-8','user_id':'0','post':'4274','subd':'theclevermachine'}]);
+_stq.push(['extra', {'crypt':'UE5XaGUuOTlwaD85flAmcm1mcmZsaDhkV11YdTdvUG14Q2VDQTR4LlUsLi82dU1mai9BMkM9QjRQOXBLb118OUp+ODNQL2IuMTRlSUNNWUR8SWtMY2dLbV1RLWJLQ0JaPXRPdGpiTGJONVV0NVNIdy9dQzBaZlhDLDZ5eWJrWCt6ZHp3PzAybkkmW2Y1ZEUwL1VKMm9YV0k/WU1vaEJrOT1JMF1lanxILExsb1tZNTBfP11DTW1vdn5TbEJmT3h6UEdESkQmRzJuW2RFMWpNNXE3bFU/VnRmVzVBdEl8d0FhWjItYi0ubXZiUHxWdTBoUUtxLkhmPz1bRS02Sl9dOHVbTD9SRDRFZ1A3ai5ENjRHPXhaWW8xLVllTFA/SXAxNXAsM016SkpCP0tb'}]);
+_stq.push([ 'clickTrackerInit', '31505600', '4274' ]);
+	</script>
+<noscript>&lt;img src="https://pixel.wp.com/b.gif?v=noscript" style="height:0px;width:0px;overflow:hidden" alt="" /&gt;</noscript>
+<script>
+if ( 'object' === typeof wpcom_mobile_user_agent_info ) {
+
+	wpcom_mobile_user_agent_info.init();
+	var mobileStatsQueryString = "";
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedPlatformName )
+		mobileStatsQueryString += "&x_" + 'mobile_platforms' + '=' + wpcom_mobile_user_agent_info.matchedPlatformName;
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedUserAgentName )
+		mobileStatsQueryString += "&x_" + 'mobile_devices' + '=' + wpcom_mobile_user_agent_info.matchedUserAgentName;
+	
+	if( wpcom_mobile_user_agent_info.isIPad() )
+		mobileStatsQueryString += "&x_" + 'ipad_views' + '=' + 'views';
+
+	if( "" != mobileStatsQueryString ) {
+		new Image().src = document.location.protocol + '//pixel.wp.com/g.gif?v=wpcom-no-pv' + mobileStatsQueryString + '&baba=' + Math.random();
+	}
+	
+}
+</script>
+
+
+<!--
+	generated 23 seconds ago
+	generated in 0.219 seconds
+	served from batcache in 0.002 seconds
+	expires in 277 seconds
+-->
+<img src="./Derivation_ Error Backpropagation &amp; Gradient Descent for Neural Networks _ The Clever Machine_files/g.gif" alt=":)" id="wpstats"></body></html>

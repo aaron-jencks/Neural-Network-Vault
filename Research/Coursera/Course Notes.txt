@@ -1,0 +1,15 @@
+Supervised Learning:
+	Classification:
+	- The output is between 0 and 1
+	Regression:
+	- There is a continuous output for the input samples.
+		* Like how many items are going to be sold in the next month
+		
+Unsupervised Learning:
+	Clustering:
+		- We have a bunch of data, but don't necessarily know what the right answer is
+		- Can also be used to cluster 'like' data together.
+	Cocktail Party Problem:
+		- Bunch of people talking at the same time
+		- You want to be able to listen to everybody individually
+	
