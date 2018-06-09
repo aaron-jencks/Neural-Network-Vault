@@ -695,8 +695,19 @@ namespace NeuralNetworkFundamentals
         /// </summary>
         public class ActivationEventArgs : EventArgs
         {
+            /// <summary>
+            /// Activation of the sending neuron
+            /// </summary>
             public double Activation { get; set; }
+
+            /// <summary>
+            /// ID of the sending neuron
+            /// </summary>
             public long ID { get; set; }
+
+            /// <summary>
+            /// input from the sending neuron
+            /// </summary>
             public double Input { get; set; }
 
             public ActivationEventArgs(double activation, long ID, double Input)
