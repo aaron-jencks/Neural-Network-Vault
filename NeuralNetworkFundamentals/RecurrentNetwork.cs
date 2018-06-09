@@ -10,6 +10,9 @@ using System.Xml.XPath;
 
 namespace NeuralNetworkFundamentals
 { 
+    /// <summary>
+    /// Type of neural network that takes the output of its network and feeds it back to the input
+    /// </summary>
     public class RecurrentNetwork : NeuralNetwork
     {
         // This will be used to implement recurrent networks, it will handle the linking of the layers back up to themselves.
@@ -20,10 +23,33 @@ namespace NeuralNetworkFundamentals
         // so when the recurrent neuron attempts to fire for the first time it needs to be marked that the input for that hidden recurrent neuron has been collected.
         // Thus, why we need to activate them during the first iteration of training, after that, every time the recurrent neuron fires, it will cause the hidden layer to fire as well.
 
-        private List<Tuple<List<Neuron>, int>> recurrentLayers;     // Holds a list of all of the hidden recurrent networks in the network
-        private List<List<int>> outputLayerConnections;             // Used for file IO, contains the lists of layers that the recurrent layers are connected to.
-        private bool firstActivation;                               // Used to determine if the network has been through it's first feed-forward pass yet
+        #region Properties
 
+        /// <summary>
+        /// Holds a list of all of the hidden recurrent layers in the network
+        /// </summary>
+        private List<Tuple<List<Neuron>, int>> recurrentLayers;     // Holds a list of all of the hidden recurrent networks in the network
+
+        /// <summary>
+        /// Used for file input output, contains the lists of layers that the recurrent layers are connected to.
+        /// </summary>
+        private List<List<int>> outputLayerConnections;             // Used for file IO, contains the lists of layers that the recurrent layers are connected to.
+
+        /// <summary>
+        /// Used to determine if the network has been through its first feed-forward pass yet.
+        /// </summary>
+        private bool firstActivation;                               // Used to determine if the network has been through it's first feed-forward pass yet
+        #endregion
+
+        #region Constructor
+        /// <summary>
+        /// Initializes a recurrent network
+        /// </summary>
+        /// <param name="LayerInfo">Layers and their types</param>
+        /// <param name="defaultActivationFunction">default activation function to use (sigmoid)</param>
+        /// <param name="Params">default activation parameters to use (sigmoid)</param>
+        /// <param name="learningRate">default learning rate (0.5)</param>
+        /// <param name="momentum">default momentum to use (0)</param>
         public RecurrentNetwork(List<LayerDesc> LayerInfo, List<ActivationFunction> defaultActivationFunction = null, List<ActivationParameters> Params = null,
             double learningRate = 0.5, double momentum = 0)
         {
@@ -110,7 +136,22 @@ namespace NeuralNetworkFundamentals
                 }
             }
         }
+        #endregion
 
+        #region Methods
+
+        #region Training and propagation
+
+        /// <summary>
+        /// Trainig override method for the recurrent network
+        /// </summary>
+        /// <param name="iterations">Number of iterations to train for</param>
+        /// <param name="sample_in">Samples to use</param>
+        /// <param name="sample_out">Expected outputs to use</param>
+        /// <param name="errorThreshold">Error threshold to quit on if the error dips below (not currently used)</param>
+        /// <param name="Reset">Flags whether to reset the network upon start (false)</param>
+        /// <param name="delay">millisecond delay between samples to reduce resource use (0)</param>
+        /// <param name="RxErrEvents">Flags whether to receive error information in its own training update event (false)</param>
         public override void Train(int iterations, List<List<double>> sample_in, List<List<double>> sample_out, double errorThreshold = 0, bool Reset = false, int delay = 0, bool RxErrEvents = false)
         {
             if (Reset)
@@ -133,6 +174,9 @@ namespace NeuralNetworkFundamentals
             base.Train(iterations, sample_in, sample_out, errorThreshold, Reset, delay, RxErrEvents);
         }
 
+        /// <summary>
+        /// Forward propagates the network
+        /// </summary>
         public override void ForwardPropagate()
         {
             // This section of the override will take care of activating the hidden recurrent layers.
@@ -147,6 +191,11 @@ namespace NeuralNetworkFundamentals
             base.ForwardPropagate();
         }
 
+        /// <summary>
+        /// Back-propagates the network
+        /// </summary>
+        /// <param name="Sample">Expected output to use</param>
+        /// <returns>Returns the average error</returns>
         public override double BackPropagate(List<double> Sample)
         {
             double error =  base.BackPropagate(Sample);
@@ -168,6 +217,14 @@ namespace NeuralNetworkFundamentals
             return error;
         }
 
+        #endregion
+
+        #region Weight and bias
+
+        /// <summary>
+        /// Generates the weight matrix
+        /// </summary>
+        /// <param name="weights">Weight matrix to use (randomized)</param>
         protected override void GenWeights(List<List<List<double>>> weights = null)
         {
             base.GenWeights(weights);
@@ -182,6 +239,10 @@ namespace NeuralNetworkFundamentals
                 }
         }
 
+        /// <summary>
+        /// Generates the bias matrix
+        /// </summary>
+        /// <param name="biases">Bias matrix to use (randomized)</param>
         protected override void GenBiases(List<List<double>> biases = null)
         {
             base.GenBiases(biases);
@@ -193,7 +254,14 @@ namespace NeuralNetworkFundamentals
                 }
         }
 
-        // File IO
+        #endregion
+
+        #region File IO
+
+        /// <summary>
+        /// Generates the network's xml schema
+        /// </summary>
+        /// <returns>The xml equivalent of the current network</returns>
         protected override XElement GenerateFileContents()
         {
             XElement root =  base.GenerateFileContents();
@@ -220,6 +288,10 @@ namespace NeuralNetworkFundamentals
             return root;
         }
 
+        /// <summary>
+        /// Loads the network from its xml schema
+        /// </summary>
+        /// <param name="root">XElement to load from</param>
         protected override void ParseFileContents(XElement root)
         {
             base.ParseFileContents(root);
@@ -254,5 +326,9 @@ namespace NeuralNetworkFundamentals
             recurrentLayers = temp;
             outputLayerConnections = tempOut;
         }
+
+        #endregion
+
+        #endregion
     }
 }
