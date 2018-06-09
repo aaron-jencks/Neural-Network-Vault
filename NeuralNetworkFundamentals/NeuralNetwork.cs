@@ -13,19 +13,45 @@ using System.Xml.XPath;
 
 namespace NeuralNetworkFundamentals
 {
+    /// <summary>
+    /// Training update event arguments
+    /// </summary>
     public class TrainingUpdateEventArgs : EventArgs
     {
-        int iteration;
-        int sampleNum;
-        List<List<Neuron>> layers;
-        double error;
-        bool finished;
+        #region properties
+        private int iteration;
+        private int sampleNum;
+        private List<List<Neuron>> layers;
+        private double error;
+        private bool finished;
+        #endregion
 
+        #region Accessor Methods
+        /// <summary>
+        /// Iteration of the training execution
+        /// </summary>
         public int Iteration { get => iteration; set => iteration = value; }
+
+        /// <summary>
+        /// Sample number of the current iteration
+        /// </summary>
         public int SampleNum { get => sampleNum; set => sampleNum = value; }
+
+        /// <summary>
+        /// Total error of the current sample
+        /// </summary>
         public double Error { get => error; set => error = value; }
+
+        /// <summary>
+        /// The layers of neurons for the current sample
+        /// </summary>
         public List<List<Neuron>> Layers { get => layers; set => layers = value; }
+
+        /// <summary>
+        /// Flags if the training has just completed
+        /// </summary>
         public bool Finished { get => finished; set => finished = value; }
+        #endregion
 
         public TrainingUpdateEventArgs(int iteration, int sampleNum, List<List<Neuron>> layers, double error, bool finished)
         {
@@ -39,7 +65,12 @@ namespace NeuralNetworkFundamentals
 
     public class NeuralNetwork
     {
-        // Static Methods
+        #region Static Methods
+        /// <summary>
+        /// Clones the neural network
+        /// </summary>
+        /// <param name="net">Neural net to clone</param>
+        /// <returns>A new instance of the same neural network</returns>
         public static NeuralNetwork Clone(NeuralNetwork net)
         {
             // Creates a copy of the passed in neural network and returns it.
@@ -47,37 +78,86 @@ namespace NeuralNetworkFundamentals
             temp = net;
             return temp;
         }
+        #endregion
 
-        // Event Information
+        #region Event Information
+
+        /// <summary>
+        /// Delegate for the training update event
+        /// </summary>
+        /// <param name="sender">neural network sending the update</param>
+        /// <param name="e">training update event args</param>
         public delegate void TrainingUpdateEventHandler(object sender, TrainingUpdateEventArgs e);
 
+        /// <summary>
+        /// Sent every time that the network finishes a sample while training the network
+        /// </summary>
         public event TrainingUpdateEventHandler TrainingUpdateEvent; // Triggered every time this network finishes a sample during training.
 
+        /// <summary>
+        /// Method for triggering the training update event
+        /// </summary>
+        /// <param name="e">arguments to send</param>
         public void OnTrainingUpdateEvent(TrainingUpdateEventArgs e)
         {
             TrainingUpdateEvent?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Delegate for the training completion event
+        /// </summary>
+        /// <param name="sender">the neural network that just finished its training</param>
         public delegate void TrainingFinishEventHandler(object sender);
 
+        /// <summary>
+        /// Triggered when the neural network finishes its training execution
+        /// </summary>
         public event TrainingFinishEventHandler TrainingFinishEvent; // Triggered every time this network finishes training.
 
+        /// <summary>
+        /// Method for triggering the training completion event
+        /// </summary>
         public void OnTrainingFinishEvent()
         {
             TrainingFinishEvent?.Invoke(this);
         }
 
-        // Properties
+        #endregion
+
+        #region Properties
         private List<List<Neuron>> layers;      // The collection of physical layers of the neural network
+
+        /// <summary>
+        /// Number of neurons that have activated, used for training
+        /// </summary>
         private int activationCount;
+
+        /// <summary>
+        /// Flags if the network has not subscribed to the neurons' activation events yet
+        /// </summary>
         private bool hasSubscribed = false; // state of whether the network has subscribed to the neurons' activation events or not.
+
         private double learningRate;
         private double momentum;
+
+        /// <summary>
+        /// Private thread used for training the network asynchronously
+        /// </summary>
         private Thread trainingThread;
+
         private long id;
         private static long netCount = 0;
+        #endregion
 
-        // Constructor
+        #region Constructor
+        /// <summary>
+        /// Constructor for the neural network
+        /// </summary>
+        /// <param name="LayerInfo">List of integers representing the neuron count for each layer beginning with the input and ending with the output</param>
+        /// <param name="defaultActivationFunction">List of default activation functions for each layer (List of sigmoid)</param>
+        /// <param name="Params">List of corresponding activation parameters for each layer (List of sigmoid)</param>
+        /// <param name="learningRate">learning rate for the network (0.5)</param>
+        /// <param name="momentum">momentum for the network (0)</param>
         public NeuralNetwork(List<int> LayerInfo, List<ActivationFunction> defaultActivationFunction = null, List<ActivationParameters> Params = null,
             double learningRate = 0.5, double momentum = 0)
         {
@@ -124,16 +204,35 @@ namespace NeuralNetworkFundamentals
             }
         }
 
+        /// <summary>
+        /// Constructor for the neural network ONLY TO BE USED BY WINDOWS FORMS
+        /// </summary>
         public NeuralNetwork()
         {
 
         }
+        #endregion
 
-        // Accessor Methods
+        #region Accessor Methods
+        /// <summary>
+        /// The 2D map of all of the neurons in the network
+        /// </summary>
         public List<List<Neuron>> Layers { get => layers; set => layers = value; }
+
+        /// <summary>
+        /// learning rate of the network
+        /// </summary>
         public double LearningRate { get => learningRate; set => learningRate = value; }
+
+        /// <summary>
+        /// current activation levels of all of the output neurons
+        /// </summary>
         public List<double> Output { get => getOutputs(); }
 
+        /// <summary>
+        /// Used to get the list of activation levels for the output neurons
+        /// </summary>
+        /// <returns>Returns the list of activation levels for the output neurons</returns>
         private List<double> getOutputs()
         {
             List<double> temp = new List<double>(Layers.Last().Count);
@@ -142,6 +241,11 @@ namespace NeuralNetworkFundamentals
             return temp;
         }
 
+        /// <summary>
+        /// Gets the output value for a given input value
+        /// </summary>
+        /// <param name="inputs">input values to use</param>
+        /// <returns>returns the calculated output values</returns>
         public List<double> Calc(List<double> inputs)
         {
             // Runs the network through its forward cycle and returns the outputs
@@ -156,6 +260,11 @@ namespace NeuralNetworkFundamentals
             return temp;
         }
 
+        /// <summary>
+        /// Generates, or sets, the weight and bias matrix of the network
+        /// </summary>
+        /// <param name="weights">Weight matrix to use (randomized)</param>
+        /// <param name="biases">Bias matrix to use (randomized)</param>
         public void GenWeightsAndBiases(List<List<List<double>>> weights = null, List<List<double>> biases = null)
         {
             // Can allow the controller to generate the biases and weights prior to training.
@@ -202,13 +311,43 @@ namespace NeuralNetworkFundamentals
             }
         }
 
+        /// <summary>
+        /// Weight matrix for the network
+        /// </summary>
         public List<List<List<double>>> Weights { get => GetWeights(); set => GenWeights(value); }
-        public List<List<double>> Biases { get => GetBiases(); set => GenBiases(value); }
-        public long ID { get => id; set => id = value; }
-        public static long NetCount { get => netCount; set => netCount = value; }
-        public double Momentum { get => momentum; set => momentum = value; }
-        public int NeuronCount { get => GetNeuralCount(); }
 
+        /// <summary>
+        /// Bias matrix for the network
+        /// </summary>
+        public List<List<double>> Biases { get => GetBiases(); set => GenBiases(value); }
+
+        /// <summary>
+        /// Uniqe ID assigned to this network at initialization
+        /// </summary>
+        public long ID { get => id; set => id = value; }
+
+        /// <summary>
+        /// Current count of networks in existence
+        /// </summary>
+        public static long NetCount { get => netCount; set => netCount = value; }
+
+        /// <summary>
+        /// Momentum of the network
+        /// </summary>
+        public double Momentum { get => momentum; set => momentum = value; }
+
+        /// <summary>
+        /// Number of neurons in this network
+        /// </summary>
+        public int NeuronCount { get => GetNeuralCount(); }
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Generates a weight matrix
+        /// </summary>
+        /// <param name="weights">Weight matrix to use (randomized)</param>
         protected virtual void GenWeights(List<List<List<double>>> weights = null)
         {
             // Can allow the controller to generate the biases and weights prior to training.
@@ -244,6 +383,10 @@ namespace NeuralNetworkFundamentals
             //}
         }
 
+        /// <summary>
+        /// Generates a bias matrix
+        /// </summary>
+        /// <param name="biases">Bias matrix to use (randomized)</param>
         protected virtual void GenBiases(List<List<double>> biases = null)
         {
             // Can allow the controller to generate the biases and weights prior to training.
@@ -275,6 +418,10 @@ namespace NeuralNetworkFundamentals
             //}
         }
 
+        /// <summary>
+        /// Returns the weight matrix of the network
+        /// </summary>
+        /// <returns>Returns the weight matrix of the network</returns>
         protected virtual List<List<List<double>>> GetWeights()
         {
             List<List<List<double>>> temp = new List<List<List<double>>>(layers.Count);
@@ -289,6 +436,10 @@ namespace NeuralNetworkFundamentals
             return temp;
         }
 
+        /// <summary>
+        /// Returns the bias matrix of the network
+        /// </summary>
+        /// <returns>Returns the bias matrix of the network</returns>
         protected virtual List<List<double>> GetBiases()
         {
             List<List<double>> temp = new List<List<double>>(layers.Count);
@@ -303,6 +454,10 @@ namespace NeuralNetworkFundamentals
             return temp;
         }
 
+        /// <summary>
+        /// Gets the current number of neurons in this network
+        /// </summary>
+        /// <returns>Returns the count of neurons in this network</returns>
         public virtual int GetNeuralCount()
         {
             int sum = 0;
@@ -312,7 +467,17 @@ namespace NeuralNetworkFundamentals
             return sum;
         }
 
-        // Training and propagation methods
+        #region Training and propagation methods
+        /// <summary>
+        /// Trains the network
+        /// </summary>
+        /// <param name="iterations">Number of iterations to go through all of the samples</param>
+        /// <param name="sample_in">List of samples to use when training the network for each iteration</param>
+        /// <param name="sample_out">List of expected output samples to use when training</param>
+        /// <param name="errorThreshold">Threshold for which to break when the error dips below (not currently in use)</param>
+        /// <param name="Reset">Flags whether to reset the network upon beginning (false)</param>
+        /// <param name="delay">Millisecond delay between samples to reduce resource consumption (0)</param>
+        /// <param name="RxErrEvents">Flags whether you want to receive the error value for the network in their own training updates (false)</param>
         public virtual void Train(int iterations, List<List<double>> sample_in, List<List<double>> sample_out, double errorThreshold = 0,  bool Reset = false,
             int delay = 0, bool RxErrEvents = false)
         {
@@ -378,6 +543,9 @@ namespace NeuralNetworkFundamentals
             }
         }
 
+        /// <summary>
+        /// Forward propagates the network for the previously loaded sample
+        /// </summary>
         public virtual void ForwardPropagate()
         {
             // Propagates the network forward, computes an answer
@@ -403,6 +571,11 @@ namespace NeuralNetworkFundamentals
             while (activationCount < layers.Last().Count /*|| launchedTasks.Find(findActive) == null*/) ; // Waits until all ActivationFunction are complete or until the tasks have all ended.
         }
 
+        /// <summary>
+        /// Back propagates the network for the given expected output
+        /// </summary>
+        /// <param name="Sample">Expected output states</param>
+        /// <returns>Returns the average error</returns>
         public virtual double BackPropagate(List<double> Sample)
         {
             // Follows the tutorial found here:
@@ -491,11 +664,20 @@ namespace NeuralNetworkFundamentals
             return ErrorTotal;
         }
 
+        /// <summary>
+        /// Method to call whenever a neuron fires in the network
+        /// </summary>
+        /// <param name="sender">neuron sending</param>
+        /// <param name="e">activation event arguments</param>
         private void OnActiveEvent(object sender, EventArgs e)
         {
             activationCount++; // symbolizes that a neuron has fired
         }
 
+        /// <summary>
+        /// Loads a sample into the network for use in propagating
+        /// </summary>
+        /// <param name="Sample">Sample to load</param>
         public void LoadSample(List<double> Sample)
         {
             for (int i = 0; i < layers[0].Count; i++)
@@ -503,7 +685,11 @@ namespace NeuralNetworkFundamentals
                 layers[0][i].RawInput = Sample[i];
             }
         }
+        #endregion
 
+        /// <summary>
+        /// Subscribes the network to each neurons' activation event
+        /// </summary>
         public void Subscribe()
         {
             // Causes the neural network to subscribe to all of it's neuron's activation events
@@ -512,8 +698,12 @@ namespace NeuralNetworkFundamentals
                 layers.Last()[i].ActiveEvent += OnActiveEvent;
         }
 
-        // Methods for saving a reading states.
+        #region Methods for saving a reading states.
 
+        /// <summary>
+        /// Converts this network into its xml schema
+        /// </summary>
+        /// <returns>The xml equivalent of this network</returns>
         protected virtual XElement GenerateFileContents()
         {
             // An overloadable method for generating the contents of the xml file.
@@ -539,6 +729,10 @@ namespace NeuralNetworkFundamentals
             return rootTree;
         }
 
+        /// <summary>
+        /// Loads a network from its xml schema
+        /// </summary>
+        /// <param name="root">XElement to load from</param>
         protected virtual void ParseFileContents(XElement root)
         {
             learningRate = Convert.ToDouble(root.Attribute("LearningRate").Value);                  // Initializes the learning rate
@@ -563,6 +757,11 @@ namespace NeuralNetworkFundamentals
             layers = temp;                                                                          // Initializes the layer variable with the new layers
         }
 
+        /// <summary>
+        /// Saves the network to an xml file
+        /// </summary>
+        /// <param name="path">File directory to save to</param>
+        /// <returns>Returns true on success</returns>
         public virtual bool SaveState(string path)
         {
             // Writes the current network's learning rate, momentum, and weights, and biases to an xml file.
@@ -574,6 +773,11 @@ namespace NeuralNetworkFundamentals
             return true;
         }
 
+        /// <summary>
+        /// Loads the network from an xml file
+        /// </summary>
+        /// <param name="path">file directory to load from</param>
+        /// <returns>returns true on success</returns>
         public virtual bool LoadState(string path)
         {
             // Reads the current network's learning rate, momentum, and weights, and biases from an xml file.
@@ -584,5 +788,8 @@ namespace NeuralNetworkFundamentals
 
             return true;
         }
+
+        #endregion
+        #endregion
     }
 }
