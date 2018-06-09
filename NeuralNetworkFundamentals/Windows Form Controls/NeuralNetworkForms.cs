@@ -11,6 +11,10 @@ namespace NeuralNetworkFundamentals.Windows_Form_Controls
     { 
         // A class for launching various debugging windows that will be helpful for troubleshooting networks.
 
+        /// <summary>
+        /// A reusable method for launching windows forms
+        /// </summary>
+        /// <param name="form"></param>
         private static void launchWindow(Form form)
         {
             // A reusable method for launching windows forms
@@ -18,6 +22,11 @@ namespace NeuralNetworkFundamentals.Windows_Form_Controls
             Application.Run(form);
         }
 
+        /// <summary>
+        /// Creates a new viewbox that displays the topology of the supplied neural network
+        /// </summary>
+        /// <param name="net">Neural network to view</param>
+        /// <param name="plotSize">plot size</param>
         [STAThread]
         public static void ViewBox(ref NeuralNetwork net, int plotSize = 5)
         {
