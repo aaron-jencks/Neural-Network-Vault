@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using NeuralNetworkFundamentals;
 using NeuralNetworkFundamentals.Windows_Form_Controls;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace Neural_Network_Testbench_W_form
 {
@@ -49,6 +50,8 @@ namespace Neural_Network_Testbench_W_form
                 Application.EnableVisualStyles();
                 Application.Run(new NetworkViewBox(ref net, 10));
             });
+
+            Thread.Sleep(1000);
 
             do
             {
