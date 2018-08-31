@@ -31,6 +31,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RecurrentNetwork Testbenche
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecurrentNetworkTestbench", "..\RecurrentNetworkTestbench\RecurrentNetworkTestbench.csproj", "{3CD0FC2C-03C5-4C00-92D2-B3DCED352D6A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Genetic Algorithm Testbench", "Genetic Algorithm Testbench", "{4ECF43E0-8A99-4B26-B867-36D44B93C003}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Genetic Algorithm Testbench", "Genetic Algorithm Testbench\Genetic Algorithm Testbench.csproj", "{D4B06FDD-1C31-4646-AD23-D480FB2663C2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +73,10 @@ Global
 		{3CD0FC2C-03C5-4C00-92D2-B3DCED352D6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3CD0FC2C-03C5-4C00-92D2-B3DCED352D6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3CD0FC2C-03C5-4C00-92D2-B3DCED352D6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4B06FDD-1C31-4646-AD23-D480FB2663C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4B06FDD-1C31-4646-AD23-D480FB2663C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4B06FDD-1C31-4646-AD23-D480FB2663C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4B06FDD-1C31-4646-AD23-D480FB2663C2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -85,6 +93,8 @@ Global
 		{D2205DFA-96A5-4AB5-B858-EC90786EE6C7} = {604B64FB-AA5B-4A06-BB61-1947F8CB84D9}
 		{9B208153-9055-43EE-A776-9DED14BB1AC8} = {D2205DFA-96A5-4AB5-B858-EC90786EE6C7}
 		{3CD0FC2C-03C5-4C00-92D2-B3DCED352D6A} = {9B208153-9055-43EE-A776-9DED14BB1AC8}
+		{4ECF43E0-8A99-4B26-B867-36D44B93C003} = {604B64FB-AA5B-4A06-BB61-1947F8CB84D9}
+		{D4B06FDD-1C31-4646-AD23-D480FB2663C2} = {4ECF43E0-8A99-4B26-B867-36D44B93C003}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {83D1F70B-EC1A-4FD6-966B-4CE0BBCDB6D0}
