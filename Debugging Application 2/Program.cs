@@ -11,7 +11,7 @@ namespace Neural_Network_Testbench
     {
         // These are the test settings, learning rate, iterations, samples, expected outputs, etc...
         static bool IsTraining = false;
-        static int iterations = 2000;
+        static int iterations = 10000;
         static double learningRate = 0.5;
         //static NetworkViewBox viewbox;
 
@@ -81,7 +81,7 @@ namespace Neural_Network_Testbench
         {
             // Executes every time the network finishes a training sample
             //Console.WriteLine("Finished Iteration " + result.Iteration);
-            Console.WriteLine("Sample [{0}, {1}] XOR [{2}]", result.Layers[0][0].Activation, result.Layers[0][1].Activation, result.Layers.Last()[0].Activation);
+            //Console.WriteLine("Sample [{0}, {1}] XOR [{2}]", result.Layers[0][0].Activation, result.Layers[0][1].Activation, result.Layers.Last()[0].Activation);
             //Console.WriteLine("Error: {0}", result.Error);
         }
 

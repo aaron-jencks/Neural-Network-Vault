@@ -477,14 +477,16 @@ namespace NeuralNetworkFundamentals
         /// <param name="sample_out">List of expected output samples to use when training</param>
         /// <param name="errorThreshold">Threshold for which to break when the error dips below (not currently in use)</param>
         /// <param name="Reset">Flags whether to reset the network upon beginning (false)</param>
-        /// <param name="delay">Millisecond delay between samples to reduce resource consumption (0)</param>
+        /// <param name="delay">Millisecond delay between samples to reduce resource consumption (-1)</param>
         /// <param name="RxErrEvents">Flags whether you want to receive the error value for the network in their own training updates (false)</param>
-        public virtual void Train(int iterations, List<List<double>> sample_in, List<List<double>> sample_out, double errorThreshold = 0,  bool Reset = false,
+        public virtual void Train(int iterations, List<List<double>> sample_in, List<List<double>> sample_out, double errorThreshold = -1,  bool Reset = false,
             int delay = 0, bool RxErrEvents = false)
         {
             // Trains the neural network on a new thread
 
-            Task.Factory.StartNew(subTrain);
+            //Task.Factory.StartNew(subTrain);
+
+            subTrain();
 
             void subTrain()
             {
@@ -550,8 +552,8 @@ namespace NeuralNetworkFundamentals
         {
             // Propagates the network forward, computes an answer
 
-            List<Task> launchedTasks = new List<Task>(layers[0].Count);
-            Predicate<Task> findActive = (Task t) => { return t.Status != TaskStatus.RanToCompletion; };
+            //List<Task> launchedTasks = new List<Task>(layers[0].Count);
+            //Predicate<Task> findActive = (Task t) => { return t.Status != TaskStatus.RanToCompletion; };
 
             if (!hasSubscribed)
             {
@@ -564,11 +566,13 @@ namespace NeuralNetworkFundamentals
 
             foreach (Neuron item in layers[0])
             {
-                launchedTasks.Add(Task.Run(() => { item.Activate(); }));
+                //Task.Factory.StartNew(()=> { item.Activate(); });
+                item.Activate();
             }
 
             // START HERE!!!
-            while (activationCount < layers.Last().Count /*|| launchedTasks.Find(findActive) == null*/) ; // Waits until all ActivationFunction are complete or until the tasks have all ended.
+            while (activationCount < layers.Last().Count /*|| launchedTasks.Find(findActive) == null*/)  // Waits until all ActivationFunction are complete or until the tasks have all ended.
+                Thread.Sleep(1);
         }
 
         /// <summary>
@@ -669,7 +673,7 @@ namespace NeuralNetworkFundamentals
         /// </summary>
         /// <param name="sender">neuron sending</param>
         /// <param name="e">activation event arguments</param>
-        private void OnActiveEvent(object sender, EventArgs e)
+        protected void OnActiveEvent(object sender, EventArgs e)
         {
             activationCount++; // symbolizes that a neuron has fired
         }

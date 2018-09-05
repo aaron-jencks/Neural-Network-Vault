@@ -14,8 +14,8 @@ namespace Neural_Network_Testbench_W_form
     {
         // These are the test settings, learning rate, iterations, samples, expected outputs, etc...
         static bool IsTraining = false;
-        static int iterations = 1000;
-        static int delay = 50;
+        static int iterations = 10000;
+        static int delay = 1;
         static double learningRate = 0.5;
 
         static List<List<double>> sampleIn = new List<List<double>>()
@@ -89,8 +89,8 @@ namespace Neural_Network_Testbench_W_form
         {
             // Executes every time the network finishes a training sample
             //Console.WriteLine("Finished Iteration " + result.Iteration);
-            Console.Title = "Iteration: " + result.Iteration;
-            Console.WriteLine("Sample [{0}, {1}] XOR [{2}]", result.Layers[0][0].Activation, result.Layers[0][1].Activation, result.Layers.Last()[0].Activation);
+            //Console.Title = "Iteration: " + result.Iteration;
+            //Console.WriteLine("Sample [{0}, {1}] XOR [{2}]", result.Layers[0][0].Activation, result.Layers[0][1].Activation, result.Layers.Last()[0].Activation);
             //Console.WriteLine("Error: {0}", result.Error);
         }
 

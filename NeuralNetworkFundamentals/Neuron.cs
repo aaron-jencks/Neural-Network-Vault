@@ -423,7 +423,7 @@ namespace NeuralNetworkFundamentals
                 activation = net;
             }
 
-            //Task.Run(new Action(OnActivation));
+            //Task.Factory.StartNew(OnActivation);
             OnActivation();
 
             //return Activation;
