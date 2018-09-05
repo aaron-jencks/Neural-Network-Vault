@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using NeuralNetworkFundamentals.Windows_Form_Controls;
+using System.Threading;
 
 namespace Neural_Network_Testbench
 {
@@ -55,7 +56,10 @@ namespace Neural_Network_Testbench
                 // Trains the network
                 IsTraining = true;
                 net.Train(iterations, sampleIn, sampleOut);
-                while (IsTraining) ;
+                while (IsTraining)
+                {
+                    Thread.Sleep(100);
+                }
 
                 //Console.Clear();
                 Console.WriteLine("Training Complete!");

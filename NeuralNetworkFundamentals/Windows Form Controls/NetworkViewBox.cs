@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace NeuralNetworkFundamentals.Windows_Form_Controls
 {
@@ -15,6 +16,8 @@ namespace NeuralNetworkFundamentals.Windows_Form_Controls
         private NeuralNetwork net;
         private List<List<Tuple<int, int>>> neuronCoord;
         private int plotSize;
+        private bool isDrawing { get; set; }
+        protected PaintNetworkCallback paintCallback { get; set; }
 
         // Accessor Methods
         public NeuralNetwork Net { get => net; set => SetupNewNetwork(ref value); }
@@ -37,6 +40,7 @@ namespace NeuralNetworkFundamentals.Windows_Form_Controls
 
         protected virtual void Setup()
         {
+            paintCallback = PaintNetwork;
             pictureBox1.Image = new Bitmap(Width, Height);
             net = net ?? new NeuralNetwork();
             SetupNewNetwork(ref net);
@@ -50,7 +54,9 @@ namespace NeuralNetworkFundamentals.Windows_Form_Controls
                 // Updates the subscription status of the events
                 if (net != null)
                     net.TrainingUpdateEvent -= TrainingUpdateEvent;
+
                 net = NewNet;
+
                 NewNet.TrainingUpdateEvent += TrainingUpdateEvent;
 
                 // Clones the new network and regenerates the coordinate list
@@ -71,8 +77,7 @@ namespace NeuralNetworkFundamentals.Windows_Form_Controls
         {
             Task.Factory.StartNew(() =>
             {
-                PaintNetworkCallback d = PaintNetwork;
-                Task.Factory.StartNew(() => BeginInvoke(d, new object[] { net.Layers }));
+                Invoke(paintCallback, new object[] { net.Layers });
             });  // Calls the painter on a different thread.
         }
 
@@ -80,6 +85,10 @@ namespace NeuralNetworkFundamentals.Windows_Form_Controls
 
         public virtual void PaintNetwork(List<List<Neuron>> layers)
         {
+            while (isDrawing)
+                Thread.Sleep(100);
+
+            isDrawing = true;
             Brush brush = new SolidBrush(Color.Black);
             Pen pen = new Pen((Brush)brush.Clone(), 1);
 
@@ -140,6 +149,8 @@ namespace NeuralNetworkFundamentals.Windows_Form_Controls
                     }
                     pictureBox1.Invalidate();
                 }
+
+                isDrawing = false;
             }
         }
 

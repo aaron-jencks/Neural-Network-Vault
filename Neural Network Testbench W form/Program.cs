@@ -15,7 +15,7 @@ namespace Neural_Network_Testbench_W_form
         // These are the test settings, learning rate, iterations, samples, expected outputs, etc...
         static bool IsTraining = false;
         static int iterations = 1000;
-        static int delay = 100;
+        static int delay = 50;
         static double learningRate = 0.5;
 
         static List<List<double>> sampleIn = new List<List<double>>()
@@ -51,7 +51,7 @@ namespace Neural_Network_Testbench_W_form
                 Application.Run(new NetworkViewBox(ref net, 10));
             });
 
-            Thread.Sleep(1000);
+            Thread.Sleep(2000);
 
             do
             {
@@ -66,7 +66,8 @@ namespace Neural_Network_Testbench_W_form
                 // Trains the network
                 IsTraining = true;
                 net.Train(iterations, sampleIn, sampleOut, delay: delay);
-                while (IsTraining) ;
+                while (IsTraining)
+                    Thread.Sleep(100);
 
                 //Console.Clear();
                 Console.WriteLine("Training Complete!");

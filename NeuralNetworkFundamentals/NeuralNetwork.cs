@@ -468,6 +468,7 @@ namespace NeuralNetworkFundamentals
         }
 
         #region Training and propagation methods
+
         /// <summary>
         /// Trains the network
         /// </summary>
@@ -481,10 +482,9 @@ namespace NeuralNetworkFundamentals
         public virtual void Train(int iterations, List<List<double>> sample_in, List<List<double>> sample_out, double errorThreshold = 0,  bool Reset = false,
             int delay = 0, bool RxErrEvents = false)
         {
-            // Trains the neural network
+            // Trains the neural network on a new thread
 
-            trainingThread = new Thread(new ThreadStart(subTrain));
-            trainingThread.Start();
+            Task.Factory.StartNew(subTrain);
 
             void subTrain()
             {
@@ -539,7 +539,7 @@ namespace NeuralNetworkFundamentals
                     if (Error <= errorThreshold)
                         break;
                 }
-                OnTrainingFinishEvent();    // Sends out an event notifying that training has completed.
+                Task.Factory.StartNew(OnTrainingFinishEvent);    // Sends out an event notifying that training has completed.
             }
         }
 
