@@ -71,6 +71,7 @@
     <Compile Include="Activation Functions\Functions\SReLU.cs" />
     <Compile Include="Activation Functions\Functions\Tanh.cs" />
     <Compile Include="LSTM.cs" />
+    <Compile Include="Math\Matrix.cs" />
     <Compile Include="NeuralNetwork.cs" />
     <Compile Include="Neuron.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
