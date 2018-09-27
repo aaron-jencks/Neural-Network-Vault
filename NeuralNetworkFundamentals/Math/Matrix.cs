@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace NeuralNetworkFundamentals.Math
 {
-    public class Matrix
+    /// <summary>
+    /// A simple class that implements a 2D vector-based matrix
+    /// </summary>
+    public class Matrix : IMatrix
     {
+
     }
 }

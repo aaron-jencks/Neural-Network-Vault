@@ -663,7 +663,7 @@ namespace NeuralNetworkFundamentals
             double ErrorTotal = 0;
 
             for (int i = 0; i < layers.Last().Count; i++)
-                ErrorTotal += Math.Pow(Sample[i] - layers.Last()[i].Activation, 2) / 2;
+                ErrorTotal += System.Math.Pow(Sample[i] - layers.Last()[i].Activation, 2) / 2;
             
             return ErrorTotal;
         }
