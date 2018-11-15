@@ -1,0 +1,23 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+tensorflow-gpu = "*"
+matplotlib = "*"
+sklearn = "*"
+scipy = "*"
+tensorflow-hub = "*"
+seaborn = "*"
+panda = "*"
+pandas = "*"
+request = "*"
+keras = "*"
+pydot = "*"
+graphviz = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.6"
